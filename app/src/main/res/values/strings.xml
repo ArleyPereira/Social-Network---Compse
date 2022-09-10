@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Social Network</string>
+    <string name="app_name_database">social_network_database</string>
+
+    <!--    Login Screen-->
+    <string name="text_label_email_login_screen">E-mail</string>
+    <string name="text_hint_email_login_screen">email@email.com</string>
+    <string name="text_label_password_login_screen">Senha</string>
+    <string name="text_hint_password_login_screen">******</string>
+    <string name="text_recover_login_screen">Recuperar conta</string>
+    <string name="text_btn_login_login_screen">Entrar</string>
+    <string name="text_continue_with_login_screen">ou continuar com</string>
+    <string name="text_title_login_screen">Login</string>
+    <string name="text_register_login_screen">Registre-se</string>
+    <string name="text_email_empty_login_screen">Por favor, Informe seu e-mail.</string>
+    <string name="text_password_empty_login_screen">Por favor, Informe sua senha.</string>
+    <string name="text_dialog_loading_login_screen">Efetuando login, aguarde...</string>
+
+    <!--    Register Screen-->
+    <string name="text_title_register_screen">Registre-se</string>
+    <string name="text_continue_with_register_screen">ou cadastre-se com</string>
+    <string name="text_label_first_name_register_fragment">Nome</string>
+    <string name="text_label_last_name_register_fragment">Sobrenome</string>
+    <string name="text_label_email_register_fragment">E-mail</string>
+    <string name="text_hint_email_register_fragment">email@email.com</string>
+    <string name="text_label_date_birth_register_fragment">Aniversário</string>
+    <string name="text_hint_date_birth_register_fragment">DD/MM/AAAA</string>
+    <string name="text_label_password_register_fragment">Senha</string>
+    <string name="text_hint_password_register_fragment">******</string>
+    <string name="text_btn_login_register_fragment">Fazer login</string>
+    <string name="text_btn_register_registration_initial_fragment">Avançar</string>
+    <string name="text_btn_register_registration_completion_fragment">Finalizar</string>
+    <string name="text_continue_with_register_fragment">ou cadastre-se com</string>
+    <string name="text_btn_register_with_google_register_fragment">Registre-se com o Google</string>
+    <string name="text_btn_register_with_facebook_register_fragment">Registre-se com o Facebook</string>
+    <string name="text_loading_dialog_register_fragment">Efetuando cadastro, aguarde…</string>
+
+    <!--    Recover Screen-->
+    <string name="text_title_recover_screen">Recuperar conta</string>
+    <string name="text_message_recover_screen">Esqueceu sua senha? Não se preocupe, informe seu e-mail abaixo para enviarmos um link de recuperação.</string>
+    <string name="text_label_email_recover_screen">E-mail</string>
+    <string name="text_hint_email_recover_screen">email@email.com</string>
+    <string name="text_btn_recover_account_recover_screen">Recuperar senha</string>
+    <string name="text_dialog_loading_recover_screen">Enviando código de recuperação, aguarde…</string>
+
+</resources>
