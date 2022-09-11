@@ -30,7 +30,7 @@ import com.example.socialnetwork.presenter.components.TextFieldPassword
 import com.example.socialnetwork.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 
-@Destination
+@Destination(start = true)
 @Composable
 fun LoginScreen(
     onRegisterClick: () -> Unit,
