@@ -23,8 +23,10 @@ import com.example.socialnetwork.ui.theme.ColorBackgroundApp
 import com.example.socialnetwork.ui.theme.ColorPrimaryDark
 import com.example.socialnetwork.ui.theme.ColorTextLight
 import com.example.socialnetwork.ui.theme.spacing
+import com.ramcosta.composedestinations.annotation.Destination
 
 @ExperimentalMaterial3Api
+@Destination
 @Composable
 fun RecoverAccountScreen(
     onBackPressed: () -> Unit

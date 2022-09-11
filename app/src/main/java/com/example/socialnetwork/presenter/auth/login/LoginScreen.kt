@@ -28,7 +28,9 @@ import com.example.socialnetwork.presenter.components.ButtonSocialLogin
 import com.example.socialnetwork.presenter.components.TextFieldCustom
 import com.example.socialnetwork.presenter.components.TextFieldPassword
 import com.example.socialnetwork.ui.theme.*
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination
 @Composable
 fun LoginScreen(
     onRegisterClick: () -> Unit,
