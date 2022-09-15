@@ -1,38 +1,43 @@
 package com.example.socialnetwork.presenter.bottombar
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.socialnetwork.R
+import com.example.socialnetwork.navigation.routes.BottomBarRoutes
 
 sealed class BottomNavItem(
     val route: String,
-    val title: String,
-    val icon: ImageVector
+    @StringRes val title: Int,
+    @DrawableRes val selectedIcon: Int,
+    @DrawableRes val unselectedIcon: Int,
 ) {
     object Feed : BottomNavItem(
-        route = "bottom_feed",
-        title = "Feed",
-        icon = Icons.Default.Home
+        route = BottomBarRoutes.Feed.route,
+        title = R.string.bottom_bar_item_feed,
+        selectedIcon = R.drawable.ic_home_line,
+        unselectedIcon = R.drawable.ic_home_fill
     )
 
     object Search : BottomNavItem(
-        route = "bottom_search",
-        title = "Search",
-        icon = Icons.Default.Search
+        route = BottomBarRoutes.Search.route,
+        title = R.string.bottom_bar_item_search,
+        selectedIcon = R.drawable.ic_search_line,
+        unselectedIcon = R.drawable.ic_search_fill
     )
 
     object Friends : BottomNavItem(
-        route = "bottom_friends",
-        title = "Amigos",
-        icon = Icons.Default.Person
+        route = BottomBarRoutes.Friends.route,
+        title = R.string.bottom_bar_item_friends,
+        selectedIcon = R.drawable.ic_friends_line,
+        unselectedIcon = R.drawable.ic_friends_fill
     )
 
     object Profile : BottomNavItem(
-        route = "bottom_profile",
-        title = "Perfil",
-        icon = Icons.Default.Person
+        route = BottomBarRoutes.Profile.route,
+        title = R.string.bottom_bar_item_profile,
+        selectedIcon = R.drawable.ic_user_settings_line,
+        unselectedIcon = R.drawable.ic_user_settings_fill
     )
 
 }

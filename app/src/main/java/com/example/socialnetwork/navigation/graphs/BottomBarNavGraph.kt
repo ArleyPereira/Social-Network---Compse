@@ -1,5 +1,6 @@
 package com.example.socialnetwork.navigation.graphs
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,6 +12,7 @@ import com.example.socialnetwork.presenter.bottombar.FriendsScreen
 import com.example.socialnetwork.presenter.bottombar.ProfileScreen
 import com.example.socialnetwork.presenter.bottombar.SearchScreen
 
+@ExperimentalMaterial3Api
 @Composable
 fun BottomBarNavGraph(navController: NavHostController) {
     NavHost(
@@ -21,14 +23,28 @@ fun BottomBarNavGraph(navController: NavHostController) {
         composable(route = BottomNavItem.Feed.route) {
             FeedScreen()
         }
+
         composable(route = BottomNavItem.Search.route) {
             SearchScreen()
         }
+
         composable(route = BottomNavItem.Friends.route) {
             FriendsScreen()
         }
+
         composable(route = BottomNavItem.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(
+                onEditProfile = {
+                    navController.navigate(GraphRoutes.ProfileGraph.route)
+                }
+            )
         }
+
+        // ------------------- Graficos interne ao grafico da BottomBar ------------------- //
+
+        /**
+         * Grafico responsável pelo fluxo de perfil do usuário
+         */
+        profileNavGraph(navController = navController)
     }
 }

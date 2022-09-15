@@ -16,9 +16,15 @@ fun RootNavGraph(navController: NavHostController) {
         route = GraphRoutes.RootGraph.route,
         startDestination = GraphRoutes.AuthGraph.route
     ) {
-        authNavGraph(navController = navController)
         composable(route = GraphRoutes.HomeGraph.route) {
             HomeScreen()
         }
+
+        // ----------------------- OTHER GRAPHICS ----------------------- //
+
+        /**
+         * Grafico responsável pelo fluxo de autenticação do usuário
+         */
+        authNavGraph(navController = navController)
     }
 }
