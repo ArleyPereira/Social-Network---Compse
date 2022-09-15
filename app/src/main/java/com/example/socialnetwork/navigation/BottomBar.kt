@@ -1,51 +1,78 @@
 package com.example.socialnetwork.navigation
 
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
-import com.example.socialnetwork.presenter.NavGraphs
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.popBackStack
-import com.ramcosta.composedestinations.utils.isRouteOnBackStack
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.socialnetwork.presenter.destinations.FeedScreenDestination
+import com.example.socialnetwork.presenter.destinations.FriendsScreenDestination
+import com.example.socialnetwork.presenter.destinations.ProfileScreenDestination
+import com.example.socialnetwork.presenter.destinations.SearchScreenDestination
 
 @ExperimentalMaterial3Api
 @Composable
 fun BottomBar(
     navController: NavHostController
 ) {
-    BottomNavigation {
-        BottomBarItem.values().forEach { destination ->
-            val isCurrentDestOnBackStack = navController.isRouteOnBackStack(destination.direction)
-            BottomNavigationItem(
-                selected = isCurrentDestOnBackStack,
-                onClick = {
-                    if (isCurrentDestOnBackStack) {
-                        navController.popBackStack(destination.direction, false)
-                        return@BottomNavigationItem
-                    }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
-                    navController.navigate(destination.direction) {
-                        popUpTo(NavGraphs.root.route) {
-                            saveState = true
-                        }
-
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                icon = {
-                    Icon(
-                        destination.icon,
-                        contentDescription = stringResource(destination.label)
-                    )
-                },
-                label = { Text(stringResource(destination.label)) },
-            )
+    AnimatedVisibility(
+        visible = isBottomMenu(currentDestination = currentDestination),
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it })
+    ) {
+        BottomNavigation {
+            BottomBarItem.values().forEach {
+                AddItem(
+                    item = it,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
         }
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun RowScope.AddItem(
+    item: BottomBarItem,
+    currentDestination: NavDestination?,
+    navController: NavHostController
+) {
+    BottomNavigationItem(
+        label = {
+            Text(text = item.name)
+        },
+        icon = {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = "Navigation Icon"
+            )
+        },
+        selected = currentDestination?.hierarchy?.any { it.route == item.direction.route } == true,
+        unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
+        onClick = { navController.navigate(item.direction.route) }
+    )
+}
+
+private fun isBottomMenu(currentDestination: NavDestination?): Boolean {
+    return when (currentDestination?.route) {
+        FeedScreenDestination.route,
+        SearchScreenDestination.route,
+        FriendsScreenDestination.route,
+        ProfileScreenDestination.route -> {
+            true
+        }
+        else -> false
     }
 }
