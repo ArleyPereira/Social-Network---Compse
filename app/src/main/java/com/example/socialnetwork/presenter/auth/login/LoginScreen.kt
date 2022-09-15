@@ -29,6 +29,7 @@ import com.example.socialnetwork.presenter.components.ButtonSocialLogin
 import com.example.socialnetwork.presenter.components.TextFieldCustom
 import com.example.socialnetwork.presenter.components.TextFieldPassword
 import com.example.socialnetwork.presenter.destinations.FeedScreenDestination
+import com.example.socialnetwork.presenter.destinations.LoginScreenDestination
 import com.example.socialnetwork.presenter.destinations.RecoverAccountScreenDestination
 import com.example.socialnetwork.presenter.destinations.RegisterScreenDestination
 import com.example.socialnetwork.ui.theme.*
@@ -99,7 +100,11 @@ fun LoginScreen(navigator: DestinationsNavigator) {
                 backgroundColor = ColorPrimaryDark,
                 modifier = Modifier
                     .fillMaxWidth()
-            ) { navigator.navigate(FeedScreenDestination) }
+            ) {
+                navigator.navigate(FeedScreenDestination) {
+                    popUpTo(LoginScreenDestination.route) { inclusive = true }
+                }
+            }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
 
