@@ -25,19 +25,19 @@ import com.example.socialnetwork.ui.theme.ColorPrimaryDark
 import com.example.socialnetwork.ui.theme.ColorTextLight
 import com.example.socialnetwork.ui.theme.spacing
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @ExperimentalMaterial3Api
 @Destination
 @Composable
-fun RegisterScreen(
-    onBackPressed: () -> Unit
-) {
+fun RegisterScreen(navigator: DestinationsNavigator) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Toolbar(title = stringResource(id = R.string.text_title_register_screen)) { onBackPressed() }
+            Toolbar(title = stringResource(id = R.string.text_title_register_screen)) { navigator.popBackStack() }
 
             Column(
                 modifier = Modifier
@@ -227,8 +227,6 @@ fun RegisterScreenPreview() {
             .background(ColorBackgroundApp)
             .fillMaxSize()
     ) {
-        RegisterScreen(
-            onBackPressed = { }
-        )
+        RegisterScreen(EmptyDestinationsNavigator)
     }
 }

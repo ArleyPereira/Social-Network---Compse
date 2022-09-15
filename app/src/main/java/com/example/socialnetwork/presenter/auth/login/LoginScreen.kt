@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -27,16 +28,18 @@ import com.example.socialnetwork.presenter.components.ButtonDefault
 import com.example.socialnetwork.presenter.components.ButtonSocialLogin
 import com.example.socialnetwork.presenter.components.TextFieldCustom
 import com.example.socialnetwork.presenter.components.TextFieldPassword
+import com.example.socialnetwork.presenter.destinations.FeedScreenDestination
+import com.example.socialnetwork.presenter.destinations.RecoverAccountScreenDestination
+import com.example.socialnetwork.presenter.destinations.RegisterScreenDestination
 import com.example.socialnetwork.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
+@ExperimentalMaterial3Api
 @Destination(start = true)
 @Composable
-fun LoginScreen(
-    onRegisterClick: () -> Unit,
-    onRecoverClick: () -> Unit,
-    onLoginInApp: () -> Unit
-) {
+fun LoginScreen(navigator: DestinationsNavigator) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -96,7 +99,7 @@ fun LoginScreen(
                 backgroundColor = ColorPrimaryDark,
                 modifier = Modifier
                     .fillMaxWidth()
-            ) { onLoginInApp() }
+            ) { navigator.navigate(FeedScreenDestination) }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
 
@@ -110,14 +113,14 @@ fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.text_register_login_screen),
                     modifier = Modifier
-                        .clickable { onRegisterClick() },
+                        .clickable { navigator.navigate(RegisterScreenDestination) },
                     color = Color(0xFF969CAE)
                 )
 
                 Text(
                     text = stringResource(id = R.string.text_recover_login_screen),
                     modifier = Modifier
-                        .clickable { onRecoverClick() },
+                        .clickable { navigator.navigate(RecoverAccountScreenDestination) },
                     color = Color(0xFF969CAE)
                 )
 
@@ -173,6 +176,7 @@ fun LoginScreen(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun LoginScreenPreview() {
@@ -181,10 +185,6 @@ fun LoginScreenPreview() {
             .background(ColorBackgroundApp)
             .fillMaxSize()
     ) {
-        LoginScreen(
-            onRegisterClick = {},
-            onRecoverClick = {},
-            onLoginInApp = {}
-        )
+        LoginScreen(EmptyDestinationsNavigator)
     }
 }

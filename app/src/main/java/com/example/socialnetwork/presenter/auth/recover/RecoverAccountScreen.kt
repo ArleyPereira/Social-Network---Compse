@@ -24,13 +24,13 @@ import com.example.socialnetwork.ui.theme.ColorPrimaryDark
 import com.example.socialnetwork.ui.theme.ColorTextLight
 import com.example.socialnetwork.ui.theme.spacing
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @ExperimentalMaterial3Api
 @Destination
 @Composable
-fun RecoverAccountScreen(
-    onBackPressed: () -> Unit
-) {
+fun RecoverAccountScreen(navigator: DestinationsNavigator) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -38,7 +38,7 @@ fun RecoverAccountScreen(
                 .fillMaxSize()
         ) {
 
-            Toolbar(title = stringResource(id = R.string.text_title_recover_screen)) { onBackPressed() }
+            Toolbar(title = stringResource(id = R.string.text_title_recover_screen)) { navigator.popBackStack() }
 
             Column(
                 modifier = Modifier
@@ -102,8 +102,6 @@ fun RecoverAccountScreenPreview() {
             .background(ColorBackgroundApp)
             .fillMaxSize()
     ) {
-        RecoverAccountScreen(
-            onBackPressed = { }
-        )
+        RecoverAccountScreen(EmptyDestinationsNavigator)
     }
 }

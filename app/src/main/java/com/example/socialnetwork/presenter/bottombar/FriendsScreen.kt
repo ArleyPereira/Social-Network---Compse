@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.socialnetwork.ui.theme.ColorBackgroundApp
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination
 @Composable
 fun FriendsScreen() {
     Box(
