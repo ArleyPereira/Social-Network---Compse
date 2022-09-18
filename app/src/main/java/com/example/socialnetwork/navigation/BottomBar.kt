@@ -73,7 +73,12 @@ fun RowScope.AddItem(
         },
         selected = currentDestination?.hierarchy?.any { it.route == item.direction.route } == true,
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
-        onClick = { navController.navigate(item.direction.route) }
+        onClick = {
+            navController.navigate(item.direction.route) {
+                popUpTo(FeedScreenDestination.route)
+                launchSingleTop = true
+            }
+        }
     )
 }
 
