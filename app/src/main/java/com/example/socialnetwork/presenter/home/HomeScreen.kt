@@ -82,9 +82,9 @@ fun RowScope.AddItem(
     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
 
     BottomNavigationItem(
-        label = {
-            Text(text = stringResource(id = item.title))
-        },
+//        label = {
+//            Text(text = stringResource(id = item.title))
+//        },
         icon = {
             Icon(
                 painter = painterResource(id = if (selected) item.unselectedIcon else item.selectedIcon),
