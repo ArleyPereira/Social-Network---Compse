@@ -81,15 +81,29 @@
         <entry key="../../../../../../layout/compose-model-1663238867282.xml" value="0.30658783783783783" />
         <entry key="../../../../../../layout/compose-model-1663238888292.xml" value="0.2947635135135135" />
         <entry key="../../../../../../layout/compose-model-1663508206382.xml" value="0.4527777777777778" />
+        <entry key="../../../../../../layout/compose-model-1663510168216.xml" value="0.2947635135135135" />
+        <entry key="../../../../../../layout/compose-model-1663510800462.xml" value="0.2947635135135135" />
+        <entry key="../../../../../../layout/compose-model-1663667491717.xml" value="0.19722222222222222" />
+        <entry key="../../../../../../layout/compose-model-1663670006801.xml" value="0.2956081081081081" />
+        <entry key="../../../../../../layout/compose-model-1663671076269.xml" value="0.3962962962962963" />
+        <entry key="../../../../../../layout/compose-model-1664145379894.xml" value="0.2956081081081081" />
+        <entry key="../../../../../../layout/compose-model-1664145403541.xml" value="1.0" />
+        <entry key="../../../../../../layout/compose-model-1664155003499.xml" value="0.38055555555555554" />
+        <entry key="../../../../../../layout/compose-model-1664155319670.xml" value="0.2947635135135135" />
+        <entry key="../../../../../../layout/compose-model-1664155430356.xml" value="0.2947635135135135" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.148" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1105" />
+        <entry key="app/src/main/res/drawable/ic_comment_line.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/ic_facebook.xml" value="0.121" />
         <entry key="app/src/main/res/drawable/ic_friends_fill.xml" value="0.1145" />
         <entry key="app/src/main/res/drawable/ic_google.xml" value="0.121" />
+        <entry key="app/src/main/res/drawable/ic_heart_fill.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/ic_home_fill.xml" value="0.1145" />
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.224" />
         <entry key="app/src/main/res/drawable/ic_search_fill.xml" value="0.1145" />
+        <entry key="app/src/main/res/drawable/ic_share_fill.xml" value="0.1435" />
         <entry key="app/src/main/res/drawable/ic_show_password.xml" value="0.148" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.3380208333333333" />
       </map>
     </option>
   </component>

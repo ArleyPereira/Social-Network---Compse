@@ -1,37 +1,89 @@
 package com.example.socialnetwork.presenter.auth.login
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.example.socialnetwork.R
 import com.example.socialnetwork.data.model.ErrorAPI
 import com.example.socialnetwork.domain.usecase.api.auth.LoginUsecase
-import com.example.socialnetwork.util.StateView
 import com.example.socialnetwork.util.getErrorResponse
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val loginUsecase: LoginUsecase
-): ViewModel() {
+) : ViewModel() {
 
-    fun loginApp(email: String, password: String) = liveData(Dispatchers.IO) {
+    private val _emailField = mutableStateOf(
+        LoginTextFieldState(
+            hint = R.string.text_label_email_login_screen
+        )
+    )
+    val emailField: State<LoginTextFieldState> = _emailField
+
+    private val _passwordField = mutableStateOf(
+        LoginTextFieldState(
+            hint = R.string.text_hint_password_login_screen
+        )
+    )
+    val passwordField: State<LoginTextFieldState> = _passwordField
+
+    private val _eventFlow = MutableSharedFlow<LoginUIEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
+    fun onEvent(event: LoginEvent) {
+        when (event) {
+            is LoginEvent.EnteredEmail -> {
+                _emailField.value = emailField.value.copy(
+                    text = event.value
+                )
+            }
+            is LoginEvent.EnteredPassword -> {
+                _passwordField.value = passwordField.value.copy(
+                    text = event.value
+                )
+            }
+            is LoginEvent.Login -> {
+                loginApp()
+            }
+        }
+    }
+
+    private fun loginApp() = viewModelScope.launch {
         try {
-            emit(StateView.Loading())
+            _eventFlow.emit(LoginUIEvent.LoginLoading)
 
             val body = mapOf(
-                "email" to email,
-                "password" to password
+                "email" to emailField.value.text,
+                "password" to passwordField.value.text
             )
 
             val result = loginUsecase.invoke(body)
 
-            emit(StateView.Sucess(data = result.data))
+            result.data?.let {
+                _eventFlow.emit(LoginUIEvent.LoginSucess(result.data))
+            }
 
         } catch (exception: HttpException) {
             val errorApi = exception.getErrorResponse<ErrorAPI>()
 
-            emit(StateView.Error(message = errorApi?.message, action = errorApi?.action))
+            _eventFlow.emit(
+                LoginUIEvent.LoginError(
+                    message = errorApi?.message ?: "Ocorreu um erro."
+                )
+            )
         } catch (exception: Exception) {
-            emit(StateView.Error(null))
+            _eventFlow.emit(
+                LoginUIEvent.LoginError(
+                    message = exception.message ?: "Ocorreu um erro."
+                )
+            )
         }
     }
 

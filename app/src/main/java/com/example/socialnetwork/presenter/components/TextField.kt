@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.socialnetwork.R
+import com.example.socialnetwork.ui.theme.ColorBackgroundApp
 import com.example.socialnetwork.ui.theme.ColorPrimaryLight
 import com.example.socialnetwork.ui.theme.ColorTextHint
 
@@ -30,7 +32,7 @@ fun TextFieldCustom(
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Next
     ),
-    hintText: String,
+    hintText: Int,
     maxLines: Int = 1,
     text: String = "",
     onTextChange: (String) -> Unit
@@ -62,7 +64,7 @@ fun TextFieldCustom(
 
                 if (textValue.isEmpty()) {
                     Text(
-                        text = hintText,
+                        text = stringResource(id = hintText),
                         color = ColorTextHint
                     )
                 }
@@ -81,7 +83,7 @@ fun TextFieldPassword(
         keyboardType = KeyboardType.Password,
         imeAction = ImeAction.Next
     ),
-    hintText: String,
+    hintText: Int,
     maxLines: Int = 1,
     text: String = "",
     onTextChange: (String) -> Unit
@@ -115,7 +117,7 @@ fun TextFieldPassword(
 
                 if (textValue.isEmpty()) {
                     Text(
-                        text = hintText,
+                        text = stringResource(id = hintText),
                         modifier = modifier
                             .align(Alignment.CenterStart),
                         color = ColorTextHint
@@ -151,7 +153,25 @@ fun TextFieldPassword(
 @Preview
 @Composable
 fun PreviewMessageCard() {
-    TextFieldPassword(hintText = "******", onTextChange = {
+    Column(
+        modifier = Modifier
+            .background(ColorBackgroundApp)
+            .padding(16.dp)
+            .fillMaxSize()
+    ) {
 
-    })
+        TextFieldPassword(hintText = R.string.text_hint_password_login_screen, onTextChange = {
+
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextFieldCustom(
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email
+            ),
+            hintText = R.string.text_hint_email_login_screen,
+            onTextChange = {})
+
+    }
 }

@@ -8,6 +8,7 @@
     <string name="bottom_bar_item_friends">Friends</string>
     <string name="bottom_bar_item_profile">Profile</string>
 
+
     <!--    Login Screen-->
     <string name="text_label_email_login_screen">E-mail</string>
     <string name="text_hint_email_login_screen">email@email.com</string>
@@ -24,6 +25,7 @@
 
     <!--    Register Screen-->
     <string name="text_title_register_screen">Registre-se</string>
+    <string name="text_hint_email_register_screen">email@email.com</string>
     <string name="text_continue_with_register_screen">ou cadastre-se com</string>
     <string name="text_label_first_name_register_fragment">Nome</string>
     <string name="text_label_last_name_register_fragment">Sobrenome</string>

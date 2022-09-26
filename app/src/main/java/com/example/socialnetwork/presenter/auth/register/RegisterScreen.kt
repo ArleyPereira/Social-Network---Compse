@@ -72,7 +72,7 @@ fun RegisterScreen(navigator: DestinationsNavigator) {
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text
                             ),
-                            hintText = stringResource(id = R.string.text_label_first_name_register_fragment),
+                            hintText = R.string.text_label_first_name_register_fragment,
                             onTextChange = {
 
                             })
@@ -96,7 +96,7 @@ fun RegisterScreen(navigator: DestinationsNavigator) {
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text
                             ),
-                            hintText = stringResource(id = R.string.text_label_last_name_register_fragment),
+                            hintText = R.string.text_label_last_name_register_fragment,
                             onTextChange = {
 
                             })
@@ -117,7 +117,7 @@ fun RegisterScreen(navigator: DestinationsNavigator) {
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email
                     ),
-                    hintText = stringResource(id = R.string.text_hint_email_register_fragment),
+                    hintText = R.string.text_hint_email_register_screen,
                     onTextChange = {
 
                     })
@@ -136,7 +136,7 @@ fun RegisterScreen(navigator: DestinationsNavigator) {
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    hintText = stringResource(id = R.string.text_hint_date_birth_register_fragment),
+                    hintText = R.string.text_hint_date_birth_register_fragment,
                     onTextChange = {
 
                     })
@@ -151,7 +151,7 @@ fun RegisterScreen(navigator: DestinationsNavigator) {
                         .align(Alignment.Start)
                 )
 
-                TextFieldPassword(hintText = stringResource(id = R.string.text_hint_password_register_fragment), onTextChange = {
+                TextFieldPassword(hintText = R.string.text_hint_password_register_fragment, onTextChange = {
 
                 })
 

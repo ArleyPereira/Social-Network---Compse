@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -23,24 +25,53 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
 import com.example.socialnetwork.presenter.components.ButtonDefault
 import com.example.socialnetwork.presenter.components.ButtonSocialLogin
 import com.example.socialnetwork.presenter.components.TextFieldCustom
 import com.example.socialnetwork.presenter.components.TextFieldPassword
-import com.example.socialnetwork.presenter.destinations.FeedScreenDestination
-import com.example.socialnetwork.presenter.destinations.LoginScreenDestination
 import com.example.socialnetwork.presenter.destinations.RecoverAccountScreenDestination
 import com.example.socialnetwork.presenter.destinations.RegisterScreenDestination
 import com.example.socialnetwork.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Destination(start = true)
 @Composable
-fun LoginScreen(navigator: DestinationsNavigator) {
+fun LoginScreen(
+    navigator: DestinationsNavigator,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+
+    var isLoading by remember { mutableStateOf(false) }
+
+    val emailState = viewModel.emailField.value
+    val passwordState = viewModel.passwordField.value
+
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is LoginUIEvent.LoginLoading -> {
+                    isLoading = true
+                }
+                is LoginUIEvent.LoginSucess -> {
+
+                }
+                is LoginUIEvent.LoginError -> {
+                    isLoading = false
+                }
+            }
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -74,9 +105,10 @@ fun LoginScreen(navigator: DestinationsNavigator) {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email
                 ),
-                hintText = "email@gmail.com",
+                hintText = emailState.hint,
+                text = emailState.text,
                 onTextChange = {
-
+                    viewModel.onEvent(LoginEvent.EnteredEmail(it))
                 })
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.normal))
@@ -89,9 +121,12 @@ fun LoginScreen(navigator: DestinationsNavigator) {
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
 
-            TextFieldPassword(hintText = "******", onTextChange = {
-
-            })
+            TextFieldPassword(
+                hintText = passwordState.hint,
+                text = passwordState.text,
+                onTextChange = {
+                    viewModel.onEvent(LoginEvent.EnteredPassword(it))
+                })
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.normal))
 
@@ -101,9 +136,12 @@ fun LoginScreen(navigator: DestinationsNavigator) {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                navigator.navigate(FeedScreenDestination) {
-                    popUpTo(LoginScreenDestination.route) { inclusive = true }
+                scope.launch {
+                    viewModel.onEvent(LoginEvent.Login)
                 }
+//                navigator.navigate(FeedScreenDestination) {
+//                    popUpTo(LoginScreenDestination.route) { inclusive = true }
+//                }
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
@@ -121,6 +159,10 @@ fun LoginScreen(navigator: DestinationsNavigator) {
                         .clickable { navigator.navigate(RegisterScreenDestination) },
                     color = Color(0xFF969CAE)
                 )
+
+                if (isLoading) {
+                    CircularProgressIndicator()
+                }
 
                 Text(
                     text = stringResource(id = R.string.text_recover_login_screen),

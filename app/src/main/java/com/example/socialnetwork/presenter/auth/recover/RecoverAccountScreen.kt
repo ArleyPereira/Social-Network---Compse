@@ -69,7 +69,7 @@ fun RecoverAccountScreen(navigator: DestinationsNavigator) {
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email
                     ),
-                    hintText = "email@gmail.com",
+                    hintText = R.string.text_hint_email_recover_screen,
                     onTextChange = {
 
                     })
