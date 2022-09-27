@@ -1,13 +1,15 @@
-package com.example.socialnetwork.domain.usecase.api.user.update.phone
+package com.example.socialnetwork.domain.usecase.api.profile
 
 import com.example.socialnetwork.data.repository.api.user.profile.ProfileApiDataSource
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
-class PhoneConfirmationUsecase @Inject constructor(private val repository: ProfileApiDataSource) {
+class EmailUpdateUseCase @Inject constructor(
+    private val repository: ProfileApiDataSource
+) {
 
     suspend operator fun invoke(body: Map<String, String>): BaseResponse<Unit> {
-        return repository.phoneConfirmUpdate(body)
+        return repository.emailUpdate(body)
     }
 
 }

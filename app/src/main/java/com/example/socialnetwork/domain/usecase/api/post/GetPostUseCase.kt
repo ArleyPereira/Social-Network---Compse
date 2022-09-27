@@ -5,7 +5,7 @@ import com.example.socialnetwork.data.repository.api.post.PostApiDataSource
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
-class GetPostUsecase @Inject constructor(
+class GetPostUseCase @Inject constructor(
     private val repository: PostApiDataSource
 ) {
 

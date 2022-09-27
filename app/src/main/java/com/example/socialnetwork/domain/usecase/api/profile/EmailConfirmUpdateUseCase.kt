@@ -4,12 +4,12 @@ import com.example.socialnetwork.data.repository.api.user.profile.ProfileApiData
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
-class PhoneUpdateUsecase @Inject constructor(
+class EmailConfirmUpdateUseCase @Inject constructor(
     private val repository: ProfileApiDataSource
 ) {
 
     suspend operator fun invoke(body: Map<String, String>): BaseResponse<Unit> {
-        return repository.phoneUpdate(body)
+        return repository.emailConfirmUpdate(body)
     }
 
 }

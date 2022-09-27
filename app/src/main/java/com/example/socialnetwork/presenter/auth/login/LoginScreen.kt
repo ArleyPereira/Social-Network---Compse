@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
+import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
+import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.components.ButtonDefault
 import com.example.socialnetwork.presenter.components.ButtonSocialLogin
 import com.example.socialnetwork.presenter.components.TextFieldCustom
@@ -50,8 +52,8 @@ fun LoginScreen(
 
     var isLoading by remember { mutableStateOf(false) }
 
-    val emailState = viewModel.emailField.value
-    val passwordState = viewModel.passwordField.value
+    val emailField = viewModel.emailField.value
+    val passwordField = viewModel.passwordField.value
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -105,8 +107,8 @@ fun LoginScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email
                 ),
-                hintText = emailState.hint,
-                text = emailState.text,
+                hintText = emailField.hint,
+                text = emailField.text,
                 onTextChange = {
                     viewModel.onEvent(LoginEvent.EnteredEmail(it))
                 })
@@ -122,8 +124,8 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
 
             TextFieldPassword(
-                hintText = passwordState.hint,
-                text = passwordState.text,
+                hintText = passwordField.hint,
+                text = passwordField.text,
                 onTextChange = {
                     viewModel.onEvent(LoginEvent.EnteredPassword(it))
                 })

@@ -1,4 +1,4 @@
-package com.example.socialnetwork.presenter.auth.login
+package com.example.socialnetwork.presenter.auth.login.events
 
 sealed class LoginEvent {
     data class EnteredEmail(val value: String): LoginEvent()

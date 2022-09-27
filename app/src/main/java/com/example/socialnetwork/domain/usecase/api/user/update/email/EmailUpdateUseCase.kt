@@ -4,7 +4,7 @@ import com.example.socialnetwork.data.repository.api.user.profile.ProfileApiData
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
-class EmailUpdateUsecase @Inject constructor(
+class EmailUpdateUseCase @Inject constructor(
     private val repository: ProfileApiDataSource
 ) {
 

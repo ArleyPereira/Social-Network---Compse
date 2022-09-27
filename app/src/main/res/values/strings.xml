@@ -28,7 +28,9 @@
     <string name="text_hint_email_register_screen">email@email.com</string>
     <string name="text_continue_with_register_screen">ou cadastre-se com</string>
     <string name="text_label_first_name_register_fragment">Nome</string>
+    <string name="text_hint_first_name_register_fragment">Arley</string>
     <string name="text_label_last_name_register_fragment">Sobrenome</string>
+    <string name="text_hint_last_name_register_fragment">Santana</string>
     <string name="text_label_email_register_fragment">E-mail</string>
     <string name="text_hint_email_register_fragment">email@email.com</string>
     <string name="text_label_date_birth_register_fragment">Aniversário</string>

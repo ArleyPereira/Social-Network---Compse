@@ -18,6 +18,6 @@ inline fun <reified T> HttpException.getErrorResponse(): T? {
  * Recebe a data em formato BR (28/04/1995) e retorna formato EUA (1995-04-28)
  */
 fun String.convertDateBirth(): String {
-    val date = this.split("/")
+    val date = this.split("-")
     return date[2].plus("-").plus(date[1]).plus("-").plus(date[0])
 }

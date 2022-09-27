@@ -1,4 +1,4 @@
-package com.example.socialnetwork.presenter.auth.login
+package com.example.socialnetwork.presenter.auth.login.events
 
 import com.example.socialnetwork.data.model.User
 
