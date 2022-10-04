@@ -5,11 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
+import com.example.socialnetwork.data.db.entity.toUserEntity
 import com.example.socialnetwork.data.model.ErrorAPI
+import com.example.socialnetwork.data.model.User
 import com.example.socialnetwork.domain.usecase.api.auth.RegisterUseCase
+import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
+import com.example.socialnetwork.presenter.auth.state.AuthTextFieldState
 import com.example.socialnetwork.presenter.auth.register.events.RegisterEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterUIEvent
-import com.example.socialnetwork.presenter.auth.state.AuthTextFieldState
 import com.example.socialnetwork.util.convertDateBirth
 import com.example.socialnetwork.util.getErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
+    private val insertUserDbUsecase: InsertUserDbUsecase
 ) : ViewModel() {
 
     private val _firstNameField = mutableStateOf(
@@ -91,8 +95,10 @@ class RegisterViewModel @Inject constructor(
 
             val result = registerUseCase.invoke(userMapOff())
 
-            result.data?.let { _eventFlow.emit(RegisterUIEvent.RegisterSucess(it)) }
-
+            result.data?.let {
+                insertUserDB(it)
+                _eventFlow.emit(RegisterUIEvent.RegisterSucess(it))
+            }
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
 
@@ -104,7 +110,21 @@ class RegisterViewModel @Inject constructor(
         } catch (ex: Exception) {
             _eventFlow.emit(
                 RegisterUIEvent.RegisterError(
-                    message = ex.message ?: "Ocorreu um erro."
+                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                )
+            )
+        }
+    }
+
+    private fun insertUserDB(user: User) = viewModelScope.launch {
+        try {
+            insertUserDbUsecase.invoke(user.toUserEntity())
+
+            _eventFlow.emit(RegisterUIEvent.RegisterSucess(user))
+        } catch (e: Exception) {
+            _eventFlow.emit(
+                RegisterUIEvent.RegisterError(
+                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
                 )
             )
         }
@@ -112,12 +132,12 @@ class RegisterViewModel @Inject constructor(
 
     private fun userMapOff(): Map<String, String> {
         return mapOf(
-            "first_name" to firstNameField.value.text,
-            "last_name" to lastNameField.value.text,
-            "date_birth" to birthField.value.text.convertDateBirth(),
+            "first_name" to "Arley",//firstNameField.value.text,
+            "last_name" to "Santana",//lastNameField.value.text,
+            "date_birth" to "28-04-1995".convertDateBirth(),
             "genre" to "male",
-            "email" to emailField.value.text,
-            "password" to passwordField.value.text,
+            "email" to "u4@gmail.com",//emailField.value.text,
+            "password" to "teste123",//passwordField.value.text,
             "avatar" to ""
         )
     }

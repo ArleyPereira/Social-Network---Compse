@@ -16,11 +16,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
-import com.example.socialnetwork.ui.theme.ColorBackgroundApp
-import com.example.socialnetwork.ui.theme.ColorPrimaryDark
+import com.example.socialnetwork.ui.theme.*
 
 @Composable
 fun ButtonSocialLogin(
@@ -50,9 +51,10 @@ fun ButtonSocialLogin(
 
 @Composable
 fun ButtonDefault(
-    text: String,
-    backgroundColor: Color,
     modifier: Modifier = Modifier,
+    text: String,
+    textStyle: TextStyle = TextStyle.Default,
+    backgroundColor: Color = ColorPrimaryDark,
     clickAction: () -> Unit
 ) {
 
@@ -69,9 +71,44 @@ fun ButtonDefault(
     ) {
         Text(
             text = text,
-            color = Color.White,
             modifier = Modifier
-                .padding(vertical = 4.dp)
+                .padding(vertical = 4.dp),
+            style = textStyle
+        )
+    }
+
+}
+
+@Composable
+fun ButtonFollow(
+    modifier: Modifier = Modifier,
+    following: Boolean,
+    clickAction: () -> Unit
+) {
+
+    Button(
+        onClick = { clickAction() },
+        modifier = modifier,
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+            disabledElevation = 0.dp
+        ),
+        shape = RoundedCornerShape(100.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (following) ColorNotFollowing else ColorFollowing
+        )
+    ) {
+        Text(
+            text = if(following) "Seguindo" else "Seguir",
+            modifier = Modifier
+                .padding(horizontal = 0.dp),
+            color = if (following) {
+                Color.Black
+            } else {
+                Color.White
+            },
+            fontSize = 12.sp,
         )
     }
 
@@ -112,5 +149,7 @@ fun PreviewButtons() {
             modifier = Modifier
                 .fillMaxWidth()
         ) {}
+
+        ButtonFollow(following = true) {}
     }
 }

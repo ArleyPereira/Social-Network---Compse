@@ -65,20 +65,21 @@ class LoginViewModel @Inject constructor(
 
             val result = loginUsecase.invoke(body)
 
-            result.data?.let { _eventFlow.emit(LoginUIEvent.LoginSucess(result.data)) }
+            result.data?.let { _eventFlow.emit(LoginUIEvent.LoginSucess(it)) }
 
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
+            errorApi?.let {
+                _eventFlow.emit(LoginUIEvent.LoginError(value = it))
+            }
 
-            _eventFlow.emit(
-                LoginUIEvent.LoginError(
-                    message = errorApi?.message ?: "Ocorreu um erro."
-                )
-            )
+
         } catch (ex: Exception) {
             _eventFlow.emit(
                 LoginUIEvent.LoginError(
-                    message = ex.message ?: "Ocorreu um erro."
+                    value = ErrorAPI(
+                        message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                    )
                 )
             )
         }

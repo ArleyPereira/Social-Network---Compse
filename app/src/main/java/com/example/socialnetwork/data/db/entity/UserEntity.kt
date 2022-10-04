@@ -8,8 +8,6 @@ import com.example.socialnetwork.data.model.User
 @Entity(tableName = "user_table")
 data class UserEntity(
     @PrimaryKey
-    @ColumnInfo(name = "id_local")
-    val idLocal: Long = 0,
     val id: Long? = null,
     @ColumnInfo(name = "first_name")
     val firstName: String? = null,

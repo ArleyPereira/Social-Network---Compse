@@ -35,17 +35,24 @@ fun TextFieldCustom(
     hintText: Int,
     maxLines: Int = 1,
     text: String = "",
+    maxLength: Int = 0,
     onTextChange: (String) -> Unit
 ) {
 
-    var textValue by remember {
-        mutableStateOf(text)
-    }
+    var textValue by remember { mutableStateOf(text) }
 
     BasicTextField(
         value = textValue,
         onValueChange = {
-            textValue = it
+            textValue = if (maxLength > 0) {
+                if (it.length <= maxLength) {
+                    it
+                } else {
+                    textValue
+                }
+            } else {
+                it
+            }
             onTextChange(it)
         },
         modifier = modifier

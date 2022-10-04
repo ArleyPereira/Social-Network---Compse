@@ -11,6 +11,8 @@ data class User(
     val firstName: String? = null,
     @SerializedName("last_name")
     val lastName: String? = null,
+    @SerializedName("nick_name")
+    val nickName: String? = null,
     @SerializedName("date_birth")
     val dateBirth: String? = null,
     val document: String? = null,

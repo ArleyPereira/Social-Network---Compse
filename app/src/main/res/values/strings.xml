@@ -8,7 +8,6 @@
     <string name="bottom_bar_item_friends">Friends</string>
     <string name="bottom_bar_item_profile">Profile</string>
 
-
     <!--    Login Screen-->
     <string name="text_label_email_login_screen">E-mail</string>
     <string name="text_hint_email_login_screen">email@email.com</string>
@@ -52,5 +51,19 @@
     <string name="text_hint_email_recover_screen">email@email.com</string>
     <string name="text_btn_recover_account_recover_screen">Recuperar senha</string>
     <string name="text_dialog_loading_recover_screen">Enviando código de recuperação, aguarde…</string>
+
+    <!--    BottomSheet-->
+    <string name="text_title_bottom_sheet">Atenção</string>
+    <string name="text_button_ok_bottom_sheet">Entendi</string>
+    <string name="text_button_cancel_bottom_sheet">Cancelar</string>
+
+    <!--    ConfirmationAccountScreen-->
+    <string name="text_title_toolbar_confirmation_account_screen">Confirmação</string>
+    <string name="text_title_confirmation_account_screen">Verifique seu email</string>
+    <string name="text_message_confirmation_account_screen">Digite o código de 6 dígitos que enviamos para:</string>
+    <string name="text_label_code_confirmation_account_screen">Código</string>
+    <string name="text_hint_code_confirmation_account_screen">Código recebido</string>
+    <string name="text_btn_send_code_confirmation_account_screen">Confirmar conta</string>
+    <string name="text_btn_resend_code_confirmation_account_screen">Reenviar código</string>
 
 </resources>
