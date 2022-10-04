@@ -60,7 +60,7 @@
     <!--    ConfirmationAccountScreen-->
     <string name="text_title_toolbar_confirmation_account_screen">Confirmação</string>
     <string name="text_title_confirmation_account_screen">Verifique seu email</string>
-    <string name="text_message_confirmation_account_screen">Digite o código de 6 dígitos que enviamos para:</string>
+    <string name="text_message_confirmation_account_screen">Digite o código enviado para:</string>
     <string name="text_label_code_confirmation_account_screen">Código</string>
     <string name="text_hint_code_confirmation_account_screen">Código recebido</string>
     <string name="text_btn_send_code_confirmation_account_screen">Confirmar conta</string>

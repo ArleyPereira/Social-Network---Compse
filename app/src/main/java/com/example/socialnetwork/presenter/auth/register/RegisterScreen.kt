@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
+import com.example.socialnetwork.data.model.ErrorAPI
+import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterUIEvent
 import com.example.socialnetwork.presenter.components.*
@@ -41,7 +43,7 @@ fun RegisterScreen(
     navigator: DestinationsNavigator,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    var error by remember { mutableStateOf(RegisterUIEvent.RegisterError("")) }
+    var error by remember { mutableStateOf(RegisterUIEvent.RegisterError(ErrorAPI())) }
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -70,12 +72,12 @@ fun RegisterScreen(
                     isLoading = true
                 }
                 is RegisterUIEvent.RegisterSucess -> {
-                    navigator.navigate(ConfirmationAccountScreenDestination(event.user.email ?: ""))
+                    navigator.navigate(ConfirmationAccountScreenDestination(event.user))
                 }
                 is RegisterUIEvent.RegisterError -> {
                     isLoading = false
 
-                    error = RegisterUIEvent.RegisterError(message = event.message)
+                    error = RegisterUIEvent.RegisterError(value = event.value)
 
                     coroutineScope.launch {
                         sheetState.animateTo(
@@ -92,7 +94,7 @@ fun RegisterScreen(
         sheetState = sheetState,
         sheetContent = {
             BottomSheetScreen(
-                message = error.message,
+                message = error.value.message,
                 onClickOk = {
                     coroutineScope.launch { sheetState.hide() }
                 },

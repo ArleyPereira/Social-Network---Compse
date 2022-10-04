@@ -21,7 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
-import com.example.socialnetwork.ui.theme.*
+import com.example.socialnetwork.ui.theme.ColorBackgroundApp
+import com.example.socialnetwork.ui.theme.ColorFollowing
+import com.example.socialnetwork.ui.theme.ColorNotFollowing
+import com.example.socialnetwork.ui.theme.ColorPrimaryDark
 
 @Composable
 fun ButtonSocialLogin(
@@ -80,6 +83,40 @@ fun ButtonDefault(
 }
 
 @Composable
+fun ButtonResend(
+    modifier: Modifier = Modifier,
+    isTimeRunning: Long,
+    textStyle: TextStyle = TextStyle.Default,
+    backgroundColor: Color = ColorPrimaryDark,
+    clickAction: () -> Unit
+) {
+
+    Button(
+        onClick = { if (isTimeRunning == 0L) clickAction() },
+        modifier = modifier,
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+            disabledElevation = 0.dp
+        ),
+        shape = RoundedCornerShape(10.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+    ) {
+        Text(
+            text = if (isTimeRunning == 0L) {
+                stringResource(id = R.string.text_btn_resend_code_confirmation_account_screen)
+            } else {
+                "Aguarde ${isTimeRunning / 1000} segundos para reenviar o código."
+            },
+            modifier = Modifier
+                .padding(vertical = 4.dp),
+            style = textStyle
+        )
+    }
+
+}
+
+@Composable
 fun ButtonFollow(
     modifier: Modifier = Modifier,
     following: Boolean,
@@ -100,7 +137,7 @@ fun ButtonFollow(
         )
     ) {
         Text(
-            text = if(following) "Seguindo" else "Seguir",
+            text = if (following) "Seguindo" else "Seguir",
             modifier = Modifier
                 .padding(horizontal = 0.dp),
             color = if (following) {
@@ -151,5 +188,12 @@ fun PreviewButtons() {
         ) {}
 
         ButtonFollow(following = true) {}
+
+        ButtonResend(
+            isTimeRunning = 0L,
+            backgroundColor = Color.Transparent,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {}
     }
 }

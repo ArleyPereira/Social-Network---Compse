@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,17 +27,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
 import com.example.socialnetwork.data.model.ErrorAPI
+import com.example.socialnetwork.data.model.User
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
 import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.components.*
+import com.example.socialnetwork.presenter.destinations.ConfirmationAccountScreenDestination
 import com.example.socialnetwork.presenter.destinations.RecoverAccountScreenDestination
 import com.example.socialnetwork.presenter.destinations.RegisterScreenDestination
 import com.example.socialnetwork.ui.theme.*
-import com.example.socialnetwork.util.Constants.Actions.ACTION_INVALID_DATA
 import com.example.socialnetwork.util.Constants.Actions.ACTION_NOT_CONFIRMED
-import com.example.socialnetwork.util.Constants.Actions.ACTION_NOT_FOUND
-import com.example.socialnetwork.util.Constants.Actions.ACTION_REQUIRED_FIELDS
-import com.example.socialnetwork.util.Constants.Actions.ACTION_UNSUCCESSFULLY
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
@@ -53,7 +50,7 @@ fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    var apiError by remember { mutableStateOf(LoginUIEvent.LoginError(ErrorAPI())) }
+    var apiError by remember { mutableStateOf(LoginUIEvent.LoginError(ErrorAPI(null))) }
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -78,12 +75,14 @@ fun LoginScreen(
                     isLoading = true
                 }
                 is LoginUIEvent.LoginSucess -> {
-
+                    //navigator.navigate(FeedScreenDestination) {
+                    //popUpTo(LoginScreenDestination.route) { inclusive = true }
+                    //}
                 }
                 is LoginUIEvent.LoginError -> {
                     isLoading = false
 
-                    apiError = LoginUIEvent.LoginError(value = event.value)
+                    apiError = LoginUIEvent.LoginError(event.value)
 
                     coroutineScope.launch {
                         sheetState.animateTo(
@@ -101,6 +100,7 @@ fun LoginScreen(
         sheetContent = {
             BottomSheetScreen(
                 message = apiError.value.message,
+                textBtnOk = textBtnOkBottomSheet(apiError.value),
                 onClickOk = {
                     coroutineScope.launch {
                         sheetState.hide()
@@ -108,7 +108,9 @@ fun LoginScreen(
                         if (apiError.value.error) {
                             when (apiError.value.action) {
                                 ACTION_NOT_CONFIRMED -> {
-
+                                    navigator.navigate(
+                                        ConfirmationAccountScreenDestination(User())
+                                    )
                                 }
                             }
                         }
@@ -189,9 +191,6 @@ fun LoginScreen(
                     coroutineScope.launch {
                         viewModel.onEvent(LoginEvent.Login)
                     }
-//                navigator.navigate(FeedScreenDestination) {
-//                    popUpTo(LoginScreenDestination.route) { inclusive = true }
-//                }
                 }
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
@@ -270,6 +269,21 @@ fun LoginScreen(
                 }
 
             }
+        }
+    }
+}
+
+/**
+ * Retorna o texto de acordo com o tipo de erro
+ * @author Arley Santana
+ */
+private fun textBtnOkBottomSheet(errorAPI: ErrorAPI): String {
+    return when (errorAPI.action) {
+        ACTION_NOT_CONFIRMED -> {
+            "Confirmar agora"
+        }
+        else -> {
+            ""
         }
     }
 }

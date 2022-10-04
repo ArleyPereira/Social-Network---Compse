@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
+import com.example.socialnetwork.data.db.entity.toUserEntity
 import com.example.socialnetwork.data.model.ErrorAPI
+import com.example.socialnetwork.data.model.User
 import com.example.socialnetwork.domain.usecase.api.auth.LoginUseCase
+import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
 import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.auth.state.AuthTextFieldState
@@ -20,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUsecase: LoginUseCase
+    private val loginUsecase: LoginUseCase,
+    private val insertUserDbUsecase: InsertUserDbUsecase
 ) : ViewModel() {
 
     private val _emailField = mutableStateOf(
@@ -65,19 +69,35 @@ class LoginViewModel @Inject constructor(
 
             val result = loginUsecase.invoke(body)
 
-            result.data?.let { _eventFlow.emit(LoginUIEvent.LoginSucess(it)) }
+            result.data?.let { insertUserDB(it) }
 
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
             errorApi?.let {
-                _eventFlow.emit(LoginUIEvent.LoginError(value = it))
+                _eventFlow.emit(LoginUIEvent.LoginError(it))
             }
-
-
         } catch (ex: Exception) {
             _eventFlow.emit(
                 LoginUIEvent.LoginError(
                     value = ErrorAPI(
+                        error = true,
+                        message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                    )
+                )
+            )
+        }
+    }
+
+    private fun insertUserDB(user: User) = viewModelScope.launch {
+        try {
+            insertUserDbUsecase.invoke(user.toUserEntity())
+
+            _eventFlow.emit(LoginUIEvent.LoginSucess(user))
+        } catch (e: Exception) {
+            _eventFlow.emit(
+                LoginUIEvent.LoginError(
+                    ErrorAPI(
+                        error = true,
                         message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
                     )
                 )

@@ -95,22 +95,18 @@ class RegisterViewModel @Inject constructor(
 
             val result = registerUseCase.invoke(userMapOff())
 
-            result.data?.let {
-                insertUserDB(it)
-                _eventFlow.emit(RegisterUIEvent.RegisterSucess(it))
-            }
+            result.data?.let { insertUserDB(it) }
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
 
-            _eventFlow.emit(
-                RegisterUIEvent.RegisterError(
-                    message = errorApi?.message ?: "Ocorreu um erro."
-                )
-            )
+            errorApi?.let { _eventFlow.emit(RegisterUIEvent.RegisterError(it)) }
         } catch (ex: Exception) {
             _eventFlow.emit(
                 RegisterUIEvent.RegisterError(
-                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                    ErrorAPI(
+                        error = true,
+                        message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                    )
                 )
             )
         }
@@ -124,7 +120,10 @@ class RegisterViewModel @Inject constructor(
         } catch (e: Exception) {
             _eventFlow.emit(
                 RegisterUIEvent.RegisterError(
-                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                    ErrorAPI(
+                        error = true,
+                        message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                    )
                 )
             )
         }
