@@ -21,8 +21,8 @@ class AuthenticationApiDataSourceImpl @Inject constructor(
         return serviceAPI.emailConfirm(body)
     }
 
-    override suspend fun recover(body: Map<String, String>): BaseResponse<Unit> {
-        return serviceAPI.recover(body)
+    override suspend fun recover(code: String, token: String): BaseResponse<Unit> {
+        return serviceAPI.recover(code, token)
     }
 
     override suspend fun logout(): BaseResponse<User> {

@@ -17,14 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
-import com.example.socialnetwork.ui.theme.ColorBackgroundApp
-import com.example.socialnetwork.ui.theme.ColorFollowing
-import com.example.socialnetwork.ui.theme.ColorNotFollowing
-import com.example.socialnetwork.ui.theme.ColorPrimaryDark
+import com.example.socialnetwork.ui.theme.*
 
 @Composable
 fun ButtonSocialLogin(
@@ -87,20 +85,24 @@ fun ButtonResend(
     modifier: Modifier = Modifier,
     isTimeRunning: Long,
     textStyle: TextStyle = TextStyle.Default,
-    backgroundColor: Color = ColorPrimaryDark,
     clickAction: () -> Unit
 ) {
+
 
     Button(
         onClick = { if (isTimeRunning == 0L) clickAction() },
         modifier = modifier,
+        enabled = isTimeRunning == 0L,
         elevation = ButtonDefaults.elevation(
             defaultElevation = 0.dp,
             pressedElevation = 0.dp,
             disabledElevation = 0.dp
         ),
         shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.Transparent,
+            disabledBackgroundColor = ColorTextLight.copy(alpha = 0.1f),
+        )
     ) {
         Text(
             text = if (isTimeRunning == 0L) {
@@ -110,6 +112,7 @@ fun ButtonResend(
             },
             modifier = Modifier
                 .padding(vertical = 4.dp),
+            textAlign = TextAlign.Center,
             style = textStyle
         )
     }
@@ -191,7 +194,6 @@ fun PreviewButtons() {
 
         ButtonResend(
             isTimeRunning = 0L,
-            backgroundColor = Color.Transparent,
             modifier = Modifier
                 .fillMaxWidth()
         ) {}

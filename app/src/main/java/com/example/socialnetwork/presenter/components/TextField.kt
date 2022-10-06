@@ -29,9 +29,7 @@ import com.example.socialnetwork.ui.theme.ColorTextHint
 @Composable
 fun TextFieldCustom(
     modifier: Modifier = Modifier,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(
-        imeAction = ImeAction.Next
-    ),
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     hintText: Int,
     maxLines: Int = 1,
     text: String = "",

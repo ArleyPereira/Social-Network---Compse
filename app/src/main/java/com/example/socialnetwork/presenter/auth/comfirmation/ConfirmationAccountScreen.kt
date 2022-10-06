@@ -1,6 +1,5 @@
 package com.example.socialnetwork.presenter.auth.comfirmation
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,12 +7,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -144,7 +138,7 @@ fun ConfirmationAccountScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-
+                    viewModel.onEvent(ConfirmationAccountEvent.ConfirmationAccount(user.token ?: ""))
                 }
 
             }
@@ -154,7 +148,6 @@ fun ConfirmationAccountScreen(
         ButtonResend(
             isTimeRunning = isTimeRunning,
             textStyle = TextStyle(color = ColorSecondaryDark),
-            backgroundColor = Color.Transparent,
             modifier = Modifier
                 .padding(
                     horizontal = MaterialTheme.spacing.medium,

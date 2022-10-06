@@ -13,9 +13,7 @@ import com.example.socialnetwork.domain.usecase.api.auth.RecoverUseCase
 import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
 import com.example.socialnetwork.presenter.auth.comfirmation.event.ConfirmationAccountEvent
 import com.example.socialnetwork.presenter.auth.comfirmation.event.ConfirmationAccountUIEvent
-import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
-import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
-import com.example.socialnetwork.presenter.auth.state.AuthTextFieldState
+import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.util.getErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -31,11 +29,11 @@ class ConfirmationAccountViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _codeField = mutableStateOf(
-        AuthTextFieldState(
+        TextFieldState(
             hint = R.string.text_hint_code_confirmation_account_screen
         )
     )
-    val codeField: State<AuthTextFieldState> = _codeField
+    val codeField: State<TextFieldState> = _codeField
 
     private val _eventFlow = MutableSharedFlow<ConfirmationAccountUIEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -49,21 +47,20 @@ class ConfirmationAccountViewModel @Inject constructor(
             is ConfirmationAccountEvent.EnteredCode -> {
                 _codeField.value = codeField.value.copy(text = event.value)
             }
-            else -> {
-
+            is ConfirmationAccountEvent.ConfirmationAccount -> {
+                confirmationAccount(event.token)
             }
         }
     }
 
-    private fun recoverAccount() = viewModelScope.launch {
+    private fun confirmationAccount(token: String) = viewModelScope.launch {
         try {
             _eventFlow.emit(ConfirmationAccountUIEvent.ConfirmationLoading)
 
-            val body = mapOf(
-                "email" to _codeField.value.text
+            val result = recoverUseCase.invoke(
+                codeField.value.text,
+                token
             )
-
-            val result = recoverUseCase.invoke(body)
 
             result.data?.let {
                 //insertUserDB(it)

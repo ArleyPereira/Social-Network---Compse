@@ -12,7 +12,7 @@ import com.example.socialnetwork.domain.usecase.api.auth.LoginUseCase
 import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
 import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
-import com.example.socialnetwork.presenter.auth.state.AuthTextFieldState
+import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.util.getErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,18 +28,20 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _emailField = mutableStateOf(
-        AuthTextFieldState(
-            hint = R.string.text_label_email_login_screen
+        TextFieldState(
+            hint = R.string.text_label_email_login_screen,
+            text = "pequeno_arley@hotmail.com"
         )
     )
-    val emailField: State<AuthTextFieldState> = _emailField
+    val emailField: State<TextFieldState> = _emailField
 
     private val _passwordField = mutableStateOf(
-        AuthTextFieldState(
-            hint = R.string.text_hint_password_login_screen
+        TextFieldState(
+            hint = R.string.text_hint_password_login_screen,
+            text = "benedito1965"
         )
     )
-    val passwordField: State<AuthTextFieldState> = _passwordField
+    val passwordField: State<TextFieldState> = _passwordField
 
     private val _eventFlow = MutableSharedFlow<LoginUIEvent>()
     val eventFlow = _eventFlow.asSharedFlow()

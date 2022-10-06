@@ -26,7 +26,8 @@ interface ServiceAPI {
 
     @POST("auth/recover")
     suspend fun recover(
-        @Body body: Map<String, String>,
+        @Body code: String,
+        @Header("token") token: String
     ): BaseResponse<Unit>
 
     @POST("auth/logout")

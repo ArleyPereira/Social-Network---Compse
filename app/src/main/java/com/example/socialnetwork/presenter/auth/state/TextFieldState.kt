@@ -1,6 +1,6 @@
 package com.example.socialnetwork.presenter.auth.state
 
-data class AuthTextFieldState(
+data class TextFieldState(
     val text: String = "",
     val hint: Int
 )

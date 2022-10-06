@@ -66,4 +66,7 @@
     <string name="text_btn_send_code_confirmation_account_screen">Confirmar conta</string>
     <string name="text_btn_resend_code_confirmation_account_screen">Reenviar código</string>
 
+    <!--    FriendsScreen-->
+    <string name="text_hint_search_view_friends_screen">Pesquisar</string>
+
 </resources>

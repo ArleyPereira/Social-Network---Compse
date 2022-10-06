@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -143,7 +144,8 @@ fun RegisterScreen(
 
                             TextFieldCustom(
                                 keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text
+                                    keyboardType = KeyboardType.Text,
+                                    capitalization = KeyboardCapitalization.Words
                                 ),
                                 hintText = firstNameField.hint,
                                 onTextChange = {
@@ -167,7 +169,8 @@ fun RegisterScreen(
 
                             TextFieldCustom(
                                 keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text
+                                    keyboardType = KeyboardType.Text,
+                                    capitalization = KeyboardCapitalization.Words
                                 ),
                                 hintText = lastNameField.hint,
                                 onTextChange = {

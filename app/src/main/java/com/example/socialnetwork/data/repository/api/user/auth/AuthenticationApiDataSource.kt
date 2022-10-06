@@ -11,7 +11,7 @@ interface AuthenticationApiDataSource {
 
     suspend fun emailConfirm(body: Map<String, String>): BaseResponse<Unit>
 
-    suspend fun recover(body: Map<String, String>): BaseResponse<Unit>
+    suspend fun recover(code: String, token: String): BaseResponse<Unit>
 
     suspend fun logout(): BaseResponse<User>
 

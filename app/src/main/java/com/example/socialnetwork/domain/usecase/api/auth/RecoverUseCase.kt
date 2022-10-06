@@ -8,8 +8,8 @@ class RecoverUseCase @Inject constructor(
     private val repository: AuthenticationApiDataSource
 ) {
 
-    suspend operator fun invoke(body: Map<String, String>): BaseResponse<Unit> {
-        return repository.recover(body)
+    suspend operator fun invoke(code: String, token: String): BaseResponse<Unit> {
+        return repository.recover(code, token)
     }
 
 }

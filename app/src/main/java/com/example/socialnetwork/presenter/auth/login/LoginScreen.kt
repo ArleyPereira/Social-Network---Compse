@@ -31,9 +31,7 @@ import com.example.socialnetwork.data.model.User
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
 import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.components.*
-import com.example.socialnetwork.presenter.destinations.ConfirmationAccountScreenDestination
-import com.example.socialnetwork.presenter.destinations.RecoverAccountScreenDestination
-import com.example.socialnetwork.presenter.destinations.RegisterScreenDestination
+import com.example.socialnetwork.presenter.destinations.*
 import com.example.socialnetwork.ui.theme.*
 import com.example.socialnetwork.util.Constants.Actions.ACTION_NOT_CONFIRMED
 import com.ramcosta.composedestinations.annotation.Destination
@@ -75,9 +73,9 @@ fun LoginScreen(
                     isLoading = true
                 }
                 is LoginUIEvent.LoginSucess -> {
-                    //navigator.navigate(FeedScreenDestination) {
-                    //popUpTo(LoginScreenDestination.route) { inclusive = true }
-                    //}
+                    navigator.navigate(FeedScreenDestination) {
+                        popUpTo(LoginScreenDestination.route) { inclusive = true }
+                    }
                 }
                 is LoginUIEvent.LoginError -> {
                     isLoading = false

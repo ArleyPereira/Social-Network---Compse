@@ -10,7 +10,7 @@ import com.example.socialnetwork.data.model.ErrorAPI
 import com.example.socialnetwork.data.model.User
 import com.example.socialnetwork.domain.usecase.api.auth.RegisterUseCase
 import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
-import com.example.socialnetwork.presenter.auth.state.AuthTextFieldState
+import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.presenter.auth.register.events.RegisterEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterUIEvent
 import com.example.socialnetwork.util.convertDateBirth
@@ -29,39 +29,39 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _firstNameField = mutableStateOf(
-        AuthTextFieldState(
+        TextFieldState(
             hint = R.string.text_hint_first_name_register_fragment
         )
     )
-    val firstNameField: State<AuthTextFieldState> = _firstNameField
+    val firstNameField: State<TextFieldState> = _firstNameField
 
     private val _lastNameField = mutableStateOf(
-        AuthTextFieldState(
+        TextFieldState(
             hint = R.string.text_hint_last_name_register_fragment
         )
     )
-    val lastNameField: State<AuthTextFieldState> = _lastNameField
+    val lastNameField: State<TextFieldState> = _lastNameField
 
     private val _emailField = mutableStateOf(
-        AuthTextFieldState(
+        TextFieldState(
             hint = R.string.text_hint_email_register_screen
         )
     )
-    val emailField: State<AuthTextFieldState> = _emailField
+    val emailField: State<TextFieldState> = _emailField
 
     private val _birthField = mutableStateOf(
-        AuthTextFieldState(
+        TextFieldState(
             hint = R.string.text_hint_date_birth_register_fragment
         )
     )
-    val birthField: State<AuthTextFieldState> = _birthField
+    val birthField: State<TextFieldState> = _birthField
 
     private val _passwordField = mutableStateOf(
-        AuthTextFieldState(
+        TextFieldState(
             hint = R.string.text_hint_password_register_fragment
         )
     )
-    val passwordField: State<AuthTextFieldState> = _passwordField
+    val passwordField: State<TextFieldState> = _passwordField
 
     private val _eventFlow = MutableSharedFlow<RegisterUIEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
