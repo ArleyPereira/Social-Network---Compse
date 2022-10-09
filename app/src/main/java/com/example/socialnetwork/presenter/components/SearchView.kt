@@ -1,7 +1,6 @@
 package com.example.socialnetwork.presenter.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -10,20 +9,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.socialnetwork.R
-import com.example.socialnetwork.ui.theme.ColorBackgroundApp
 import com.example.socialnetwork.ui.theme.ColorPrimaryLight
 import com.example.socialnetwork.ui.theme.ColorSecondaryDark
+import com.example.socialnetwork.ui.theme.ColorTextHint
 
 @Composable
 fun SearchView(
@@ -49,64 +51,78 @@ fun SearchView(
         ),
         singleLine = true,
         maxLines = 1,
+        cursorBrush = SolidColor(ColorPrimaryLight),
         decorationBox = { innerTextField ->
-            Box(
-                Modifier
-                    .border(1.dp, ColorPrimaryLight, RoundedCornerShape(100))
-                    .background(ColorBackgroundApp, RoundedCornerShape(percent = 100))
-                    .padding(10.dp)
+            Card(
+                modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(10.dp)),
+                shape = RoundedCornerShape(10.dp),
+                elevation = 15.dp
             ) {
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                Box(
+                    Modifier
+                        .background(Color.White)
+                        .padding(14.dp)
+                        .fillMaxWidth()
                 ) {
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_search_line),
-                        contentDescription = stringResource(
-                            id = R.string.text_hint_search_view_friends_screen
-                        ),
-                        tint = ColorPrimaryLight
-                    )
-
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .padding(start = 8.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (textValue.isEmpty()) {
-                            Text(
-                                text = stringResource(id = hintText),
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_search_line),
+                            contentDescription = stringResource(
+                                id = R.string.text_hint_search_view_friends_screen
+                            ),
+                            tint = ColorPrimaryLight
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                                .fillMaxWidth()
+                        ) {
+                            if (textValue.isEmpty()) {
+                                Text(
+                                    text = stringResource(id = hintText),
+                                    modifier = Modifier
+                                        .align(Alignment.CenterStart),
+                                    color = ColorPrimaryLight
+                                )
+                            }
+
+                            Row(
                                 modifier = Modifier
-                                    .align(Alignment.CenterStart),
-                                color = ColorPrimaryLight
-                            )
+                                    .fillMaxWidth()
+                                    .padding(end = 24.dp)
+                            ) {
+                                innerTextField()
+                            }
+
+                            if (textValue.isNotEmpty()) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_close),
+                                    contentDescription = stringResource(
+                                        id = R.string.text_hint_search_view_friends_screen
+                                    ),
+                                    modifier = Modifier
+                                        .align(Alignment.CenterEnd)
+                                        .clickable {
+                                            onClearText()
+                                            textValue = ""
+                                        },
+                                    tint = ColorSecondaryDark
+                                )
+                            }
                         }
 
-                        innerTextField()
-
-                        if (textValue.isNotEmpty()) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_close),
-                                contentDescription = stringResource(
-                                    id = R.string.text_hint_search_view_friends_screen
-                                ),
-                                modifier = Modifier
-                                    .align(Alignment.CenterEnd)
-                                    .clickable {
-                                        onClearText()
-                                        textValue = ""
-                                    },
-                                tint = ColorSecondaryDark
-                            )
-                        }
                     }
 
                 }
-
             }
         }
     )

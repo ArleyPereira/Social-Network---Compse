@@ -19,7 +19,7 @@ class SharedPreferencesHelper(context: Context) {
     }
 
     fun getToken(): String {
-        return ("Bearer" + preferences.getString(TOKEN_KEY, ""))
+        return preferences.getString(TOKEN_KEY, "") ?: ""
     }
 
 }

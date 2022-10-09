@@ -1,7 +1,8 @@
 package com.example.socialnetwork.data.repository.api.user.profile
 
 import com.example.socialnetwork.data.api.ServiceAPI
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.UserDto
+import com.example.socialnetwork.domain.repository.api.user.profile.ProfileApiDataSource
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
@@ -14,7 +15,7 @@ class ProfileApiDataSourceImpl @Inject constructor(
      * @param [userId] Id do usuário a ser retornado
      * @author Arley Santana
      */
-    override suspend fun getProfile(userId: Long): BaseResponse<User> {
+    override suspend fun getProfile(userId: Long): BaseResponse<UserDto> {
         return serviceAPI.getUserProfile(userId)
     }
 
@@ -50,7 +51,7 @@ class ProfileApiDataSourceImpl @Inject constructor(
      * @return Retorna o campo error ( sucess ou false/null )
      * @author Arley Santana
      */
-    override suspend fun emailConfirmUpdate(body: Map<String, String>): BaseResponse<Unit> {
+    override suspend fun emailConfirmUpdate(body: Map<String, String?>): BaseResponse<Unit> {
         return serviceAPI.emailConfirmUpdate(body)
     }
 

@@ -1,11 +1,13 @@
 package com.example.socialnetwork.data.model
 
 import android.os.Parcelable
+import com.example.socialnetwork.data.db.entity.UserEntity
+import com.example.socialnetwork.domain.model.User
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class User(
+data class UserDto(
     val id: Long? = null,
     @SerializedName("first_name")
     val firstName: String? = null,
@@ -23,3 +25,18 @@ data class User(
     val avatar: String? = null,
     val token: String? = null
 ) : Parcelable
+
+fun UserDto.toDomain() = User(
+    id = id,
+    firstName = firstName,
+    lastName = lastName,
+    nickName = nickName,
+    dateBirth = dateBirth,
+    document = document,
+    genre = genre,
+    email = email,
+    phone = phone,
+    password = password,
+    avatar = avatar,
+    token = token
+)

@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
-import com.example.socialnetwork.data.db.entity.toUserEntity
 import com.example.socialnetwork.data.model.ErrorAPI
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.toDomain
+import com.example.socialnetwork.domain.model.User
+import com.example.socialnetwork.domain.model.toUserEntity
 import com.example.socialnetwork.domain.usecase.api.auth.LoginUseCase
 import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
@@ -71,7 +72,7 @@ class LoginViewModel @Inject constructor(
 
             val result = loginUsecase.invoke(body)
 
-            result.data?.let { insertUserDB(it) }
+            result.data?.let { insertUserDB(it.toDomain()) }
 
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()

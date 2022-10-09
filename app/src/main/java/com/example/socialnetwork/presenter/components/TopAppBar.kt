@@ -32,7 +32,7 @@ fun Toolbar(
                 overflow = TextOverflow.Ellipsis
             )
         },
-        modifier = modifier.shadow(5.dp),
+        modifier = modifier.shadow(0.dp),
         navigationIcon = {
             onBackPressed?.let { action ->
                 IconButton(onClick = action) {

@@ -1,4 +1,4 @@
-package com.example.socialnetwork.data.repository.datastore.user
+package com.example.socialnetwork.data.repository.preference.user
 
 interface UserDataStoreRepository {
 

@@ -9,11 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.UserDto
 import com.example.socialnetwork.presenter.bottombar.friends.event.FriendsEvent
 import com.example.socialnetwork.presenter.components.CardProfileListScreen
 import com.example.socialnetwork.presenter.components.SearchView
@@ -34,7 +33,7 @@ fun FriendsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+
     ) {
 
 
@@ -56,34 +55,34 @@ fun FriendsScreen(
                 )
             }
 
-            val users = listOf(
-                User(nickName = "arleysantana", lastName = "Arley Santana"),
-                User(nickName = "marcosalmeida", lastName = "Marcos Almeida"),
-                User(nickName = "jose.silva", lastName = "José Silva"),
-                User(nickName = "lucas_almeida", lastName = "Lucas Almeida"),
-                User(nickName = "luanrocha", lastName = "Luan Rocha"),
-                User(nickName = "rafael.reis", lastName = "Rafael Reis"),
-                User(nickName = "alissonsantana", lastName = "Alisson Santana"),
-                User(nickName = "arleypereira", lastName = "Arley Pereira"),
-                User(nickName = "arleysantana", lastName = "Arley Santana"),
-                User(nickName = "marcosalmeida", lastName = "Marcos Almeida"),
-                User(nickName = "jose.silva", lastName = "José Silva"),
-                User(nickName = "lucas_almeida", lastName = "Lucas Almeida"),
-                User(nickName = "luanrocha", lastName = "Luan Rocha"),
-                User(nickName = "rafael.reis", lastName = "Rafael Reis"),
-                User(nickName = "alissonsantana", lastName = "Alisson Santana"),
-                User(nickName = "arleypereira", lastName = "Arley Pereira"),
-                User(nickName = "arleysantana", lastName = "Arley Santana"),
-                User(nickName = "marcosalmeida", lastName = "Marcos Almeida"),
-                User(nickName = "jose.silva", lastName = "José Silva"),
-                User(nickName = "lucas_almeida", lastName = "Lucas Almeida"),
-                User(nickName = "luanrocha", lastName = "Luan Rocha"),
-                User(nickName = "rafael.reis", lastName = "Rafael Reis"),
-                User(nickName = "alissonsantana", lastName = "Alisson Santana"),
-                User(nickName = "arleypereira", lastName = "Arley Pereira"),
+            val userDtos = listOf(
+                UserDto(nickName = "arleysantana", lastName = "Arley Santana"),
+                UserDto(nickName = "marcosalmeida", lastName = "Marcos Almeida"),
+                UserDto(nickName = "jose.silva", lastName = "José Silva"),
+                UserDto(nickName = "lucas_almeida", lastName = "Lucas Almeida"),
+                UserDto(nickName = "luanrocha", lastName = "Luan Rocha"),
+                UserDto(nickName = "rafael.reis", lastName = "Rafael Reis"),
+                UserDto(nickName = "alissonsantana", lastName = "Alisson Santana"),
+                UserDto(nickName = "arleypereira", lastName = "Arley Pereira"),
+                UserDto(nickName = "arleysantana", lastName = "Arley Santana"),
+                UserDto(nickName = "marcosalmeida", lastName = "Marcos Almeida"),
+                UserDto(nickName = "jose.silva", lastName = "José Silva"),
+                UserDto(nickName = "lucas_almeida", lastName = "Lucas Almeida"),
+                UserDto(nickName = "luanrocha", lastName = "Luan Rocha"),
+                UserDto(nickName = "rafael.reis", lastName = "Rafael Reis"),
+                UserDto(nickName = "alissonsantana", lastName = "Alisson Santana"),
+                UserDto(nickName = "arleypereira", lastName = "Arley Pereira"),
+                UserDto(nickName = "arleysantana", lastName = "Arley Santana"),
+                UserDto(nickName = "marcosalmeida", lastName = "Marcos Almeida"),
+                UserDto(nickName = "jose.silva", lastName = "José Silva"),
+                UserDto(nickName = "lucas_almeida", lastName = "Lucas Almeida"),
+                UserDto(nickName = "luanrocha", lastName = "Luan Rocha"),
+                UserDto(nickName = "rafael.reis", lastName = "Rafael Reis"),
+                UserDto(nickName = "alissonsantana", lastName = "Alisson Santana"),
+                UserDto(nickName = "arleypereira", lastName = "Arley Pereira"),
             )
 
-            items(users) { user ->
+            items(userDtos) { user ->
                 CardProfileListScreen(
                     following = false,
                     profileName = user.lastName!!,

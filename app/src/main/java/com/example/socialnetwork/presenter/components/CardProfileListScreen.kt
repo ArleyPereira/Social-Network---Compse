@@ -12,13 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.socialnetwork.R
 import com.example.socialnetwork.ui.theme.ColorBackgroundApp
 import com.example.socialnetwork.ui.theme.ColorPrimaryDark
+import com.example.socialnetwork.ui.theme.ColorTextDark
 import com.example.socialnetwork.ui.theme.ColorTextLight
 
 @Composable
@@ -34,13 +37,14 @@ fun CardProfileListScreen(
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(100.dp),
-        backgroundColor = ColorBackgroundApp,
+        //backgroundColor = ColorBackgroundApp,
+        backgroundColor = Color.Transparent,
         elevation = 0.dp
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -63,7 +67,11 @@ fun CardProfileListScreen(
                     modifier = Modifier
                         .padding(start = 16.dp)
                 ) {
-                    Text(text = profileName)
+                    Text(
+                        text = profileName,
+                        color = ColorTextDark,
+                        fontWeight = FontWeight.Bold
+                    )
                     Text(
                         text = nickName,
                         color = ColorTextLight

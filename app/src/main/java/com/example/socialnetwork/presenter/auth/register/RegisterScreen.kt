@@ -14,22 +14,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
 import com.example.socialnetwork.data.model.ErrorAPI
-import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterUIEvent
 import com.example.socialnetwork.presenter.components.*
 import com.example.socialnetwork.presenter.destinations.ConfirmationAccountScreenDestination
 import com.example.socialnetwork.ui.theme.*
+import com.example.socialnetwork.util.preference.SharedPreferencesHelper
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
@@ -44,6 +45,8 @@ fun RegisterScreen(
     navigator: DestinationsNavigator,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
+    val preferences = SharedPreferencesHelper(LocalContext.current)
+
     var error by remember { mutableStateOf(RegisterUIEvent.RegisterError(ErrorAPI())) }
 
     val sheetState = rememberModalBottomSheetState(
@@ -73,6 +76,7 @@ fun RegisterScreen(
                     isLoading = true
                 }
                 is RegisterUIEvent.RegisterSucess -> {
+                    preferences.saveToken(event.user.token)
                     navigator.navigate(ConfirmationAccountScreenDestination(event.user))
                 }
                 is RegisterUIEvent.RegisterError -> {
@@ -136,10 +140,11 @@ fun RegisterScreen(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.text_label_first_name_register_fragment),
-                                color = ColorTextLight,
                                 modifier = Modifier
                                     .padding(bottom = MaterialTheme.spacing.extraSmall)
-                                    .align(Alignment.Start)
+                                    .align(Alignment.Start),
+                                color = ColorTextLight,
+                                fontSize = 14.sp
                             )
 
                             TextFieldCustom(
@@ -161,10 +166,11 @@ fun RegisterScreen(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.text_label_last_name_register_fragment),
-                                color = ColorTextLight,
                                 modifier = Modifier
                                     .padding(bottom = MaterialTheme.spacing.extraSmall)
-                                    .align(Alignment.Start)
+                                    .align(Alignment.Start),
+                                color = ColorTextLight,
+                                fontSize = 14.sp
                             )
 
                             TextFieldCustom(
@@ -183,10 +189,11 @@ fun RegisterScreen(
 
                     Text(
                         text = stringResource(id = R.string.text_label_email_register_fragment),
-                        color = ColorTextLight,
                         modifier = Modifier
                             .padding(bottom = MaterialTheme.spacing.extraSmall)
-                            .align(Alignment.Start)
+                            .align(Alignment.Start),
+                        color = ColorTextLight,
+                        fontSize = 14.sp
                     )
 
                     TextFieldCustom(
@@ -202,10 +209,11 @@ fun RegisterScreen(
 
                     Text(
                         text = stringResource(id = R.string.text_label_date_birth_register_fragment),
-                        color = ColorTextLight,
                         modifier = Modifier
                             .padding(bottom = MaterialTheme.spacing.extraSmall)
-                            .align(Alignment.Start)
+                            .align(Alignment.Start),
+                        color = ColorTextLight,
+                        fontSize = 14.sp
                     )
 
                     TextFieldCustom(
@@ -221,10 +229,11 @@ fun RegisterScreen(
 
                     Text(
                         text = stringResource(id = R.string.text_label_password_register_fragment),
-                        color = ColorTextLight,
                         modifier = Modifier
                             .padding(MaterialTheme.spacing.extraSmall)
-                            .align(Alignment.Start)
+                            .align(Alignment.Start),
+                        color = ColorTextLight,
+                        fontSize = 14.sp
                     )
 
                     TextFieldPassword(
@@ -274,7 +283,7 @@ fun RegisterScreen(
                         Text(
                             text = stringResource(id = R.string.text_continue_with_register_screen),
                             modifier = Modifier
-                                .background(color = Color.White)
+                                .background(color = ColorBackgroundApp)
                                 .padding(horizontal = MaterialTheme.spacing.normal),
                             color = Color(0xFF969CAE)
                         )

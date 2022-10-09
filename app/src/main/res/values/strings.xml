@@ -2,6 +2,9 @@
     <string name="app_name">Social Network</string>
     <string name="app_name_database">social_network_database</string>
 
+    <!--    Generic-->
+    <string name="message_error_generic">"Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."</string>
+
     <!--    BottomBar-->
     <string name="bottom_bar_item_feed">Feed</string>
     <string name="bottom_bar_item_search">Search</string>

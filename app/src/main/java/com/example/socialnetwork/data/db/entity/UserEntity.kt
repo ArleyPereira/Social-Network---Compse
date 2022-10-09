@@ -3,7 +3,8 @@ package com.example.socialnetwork.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.UserDto
+import com.example.socialnetwork.domain.model.User
 
 @Entity(tableName = "user_table")
 data class UserEntity(
@@ -23,24 +24,6 @@ data class UserEntity(
     val avatar: String? = null,
     val token: String? = null
 )
-
-fun User.toUserEntity(): UserEntity {
-    return with(this) {
-        UserEntity(
-            id = this.id,
-            firstName = this.firstName,
-            lastName = this.lastName,
-            dateBirth = this.dateBirth,
-            document = this.document,
-            genre = this.genre,
-            email = this.email,
-            phone = this.phone,
-            password = this.password,
-            avatar = this.avatar,
-            token = this.token
-        )
-    }
-}
 
 fun UserEntity.toUser(): User {
     return with(this) {

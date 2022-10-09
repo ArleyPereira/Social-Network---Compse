@@ -1,7 +1,7 @@
 package com.example.socialnetwork.data.api
 
 import com.example.socialnetwork.data.model.Post
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.UserDto
 import com.example.socialnetwork.util.BaseResponse
 import retrofit2.http.*
 
@@ -12,12 +12,12 @@ interface ServiceAPI {
     @POST("users")
     suspend fun register(
         @Body user: Map<String, String>
-    ): BaseResponse<User>
+    ): BaseResponse<UserDto>
 
     @POST("auth/login")
     suspend fun login(
         @Body body: Map<String, String>
-    ): BaseResponse<User>
+    ): BaseResponse<UserDto>
 
     @PUT("confirmations")
     suspend fun emailConfirm(
@@ -31,14 +31,14 @@ interface ServiceAPI {
     ): BaseResponse<Unit>
 
     @POST("auth/logout")
-    suspend fun logout(): BaseResponse<User>
+    suspend fun logout(): BaseResponse<UserDto>
 
     /* ----------------- PROFILE ----------------- */
 
     @GET("users")
     suspend fun getUserProfile(
         @Query("user_id") userId: Long,
-    ): BaseResponse<User>
+    ): BaseResponse<UserDto>
 
     @POST("confirmations")
     suspend fun phoneUpdate(
@@ -57,12 +57,17 @@ interface ServiceAPI {
 
     @PUT("confirmations")
     suspend fun emailConfirmUpdate(
-        @Body body: Map<String, String>
+        @Body body: Map<String, String?>
     ): BaseResponse<Unit>
 
     /* ----------------- POST ----------------- */
 
     @GET("posts")
     suspend fun getPosts(): BaseResponse<List<Post>>
+
+    /* ----------------- FRIENDS ----------------- */
+
+    @GET("friends")
+    suspend fun getFriends(): BaseResponse<List<UserDto>>
 
 }

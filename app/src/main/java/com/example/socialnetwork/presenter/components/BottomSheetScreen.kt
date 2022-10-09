@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
 import com.example.socialnetwork.ui.theme.ColorSecondaryDark
 import com.example.socialnetwork.ui.theme.ColorTextDark
@@ -22,7 +21,7 @@ import com.example.socialnetwork.ui.theme.ColorTextDark
 fun BottomSheetScreen(
     modifier: Modifier = Modifier,
     title: String? = null,
-    message: String,
+    message: String? = null,
     textBtnOk: String? = null,
     textBtnCancel: String? = null,
     btnCancelIsVisibled: Boolean = false,
@@ -50,7 +49,10 @@ fun BottomSheetScreen(
 
             Divider()
 
-            Text(text = message, modifier = Modifier.padding(bottom = 16.dp))
+            Text(
+                text = message ?: stringResource(id = R.string.message_error_generic),
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
             ButtonDefault(
                 modifier = Modifier

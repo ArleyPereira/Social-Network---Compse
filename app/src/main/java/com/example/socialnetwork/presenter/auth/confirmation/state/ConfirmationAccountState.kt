@@ -1,9 +1,9 @@
-package com.example.socialnetwork.presenter.auth.comfirmation.state
+package com.example.socialnetwork.presenter.auth.confirmation.state
 
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.UserDto
 
 data class ConfirmationAccountState(
-    private val user: User? = null,
+    private val userDto: UserDto? = null,
     private val isLoading: Boolean = false,
     private val error: String? = null,
     private val textButtonResend: String = "",

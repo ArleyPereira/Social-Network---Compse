@@ -17,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
 import com.example.socialnetwork.presenter.components.ButtonDefault
 import com.example.socialnetwork.presenter.components.TextFieldCustom
@@ -61,8 +62,10 @@ fun RecoverAccountScreen(navigator: DestinationsNavigator) {
 
                 Text(
                     text = stringResource(id = R.string.text_label_email_recover_screen),
+                    modifier = Modifier
+                        .align(Alignment.Start),
                     color = ColorTextLight,
-                    modifier = Modifier.align(Alignment.Start)
+                    fontSize = 14.sp
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))

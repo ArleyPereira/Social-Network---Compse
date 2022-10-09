@@ -1,4 +1,4 @@
-package com.example.socialnetwork.presenter.auth.comfirmation
+package com.example.socialnetwork.presenter.auth.confirmation
 
 import android.os.CountDownTimer
 import androidx.compose.runtime.State
@@ -6,13 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
-import com.example.socialnetwork.data.db.entity.toUserEntity
 import com.example.socialnetwork.data.model.ErrorAPI
-import com.example.socialnetwork.data.model.User
-import com.example.socialnetwork.domain.usecase.api.auth.RecoverUseCase
+import com.example.socialnetwork.domain.model.User
+import com.example.socialnetwork.domain.model.toUserEntity
+import com.example.socialnetwork.domain.usecase.api.auth.EmailConfirmationUseCase
 import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
-import com.example.socialnetwork.presenter.auth.comfirmation.event.ConfirmationAccountEvent
-import com.example.socialnetwork.presenter.auth.comfirmation.event.ConfirmationAccountUIEvent
+import com.example.socialnetwork.presenter.auth.confirmation.event.ConfirmationAccountEvent
+import com.example.socialnetwork.presenter.auth.confirmation.event.ConfirmationAccountUIEvent
 import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.util.getErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmationAccountViewModel @Inject constructor(
-    private val recoverUseCase: RecoverUseCase,
+    private val confirmationUseCase: EmailConfirmationUseCase,
     private val insertUserDbUsecase: InsertUserDbUsecase
 ) : ViewModel() {
 
@@ -48,24 +48,37 @@ class ConfirmationAccountViewModel @Inject constructor(
                 _codeField.value = codeField.value.copy(text = event.value)
             }
             is ConfirmationAccountEvent.ConfirmationAccount -> {
-                confirmationAccount(event.token)
+                confirmationAccount(event.email)
+            }
+            is ConfirmationAccountEvent.SaveUserDB -> {
+                insertUserDB(event.user)
             }
         }
     }
 
-    private fun confirmationAccount(token: String) = viewModelScope.launch {
+    private fun confirmationAccount(email: String?) = viewModelScope.launch {
         try {
             _eventFlow.emit(ConfirmationAccountUIEvent.ConfirmationLoading)
 
-            val result = recoverUseCase.invoke(
-                codeField.value.text,
-                token
+            val body = mapOf(
+                "email" to email,
+                "code" to _codeField.value.text
             )
 
-            result.data?.let {
-                //insertUserDB(it)
-            }
+            val result = confirmationUseCase.invoke(body)
 
+            if (result.error == true) {
+                _eventFlow.emit(
+                    ConfirmationAccountUIEvent.ConfirmationError(
+                        value = ErrorAPI(
+                            error = true,
+                            message = result.message
+                        )
+                    )
+                )
+            } else {
+                _eventFlow.emit(ConfirmationAccountUIEvent.ConfirmationSucess)
+            }
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
             errorApi?.let {
@@ -87,7 +100,7 @@ class ConfirmationAccountViewModel @Inject constructor(
         try {
             insertUserDbUsecase.invoke(user.toUserEntity())
 
-            _eventFlow.emit(ConfirmationAccountUIEvent.ConfirmationSucess(user))
+            _eventFlow.emit(ConfirmationAccountUIEvent.SaveUserDBSucess)
         } catch (e: Exception) {
             _eventFlow.emit(
                 ConfirmationAccountUIEvent.ConfirmationError(

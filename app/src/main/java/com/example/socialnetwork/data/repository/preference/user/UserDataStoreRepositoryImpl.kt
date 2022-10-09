@@ -1,4 +1,4 @@
-package com.example.socialnetwork.data.repository.datastore.user
+package com.example.socialnetwork.data.repository.preference.user
 
 import com.example.socialnetwork.util.datastore.UserDataStore
 import javax.inject.Inject

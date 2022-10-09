@@ -5,14 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
-import com.example.socialnetwork.data.db.entity.toUserEntity
 import com.example.socialnetwork.data.model.ErrorAPI
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.data.model.toDomain
+import com.example.socialnetwork.domain.model.User
+import com.example.socialnetwork.domain.model.toUserEntity
 import com.example.socialnetwork.domain.usecase.api.auth.RegisterUseCase
 import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
-import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.presenter.auth.register.events.RegisterEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterUIEvent
+import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.util.convertDateBirth
 import com.example.socialnetwork.util.getErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -95,7 +96,7 @@ class RegisterViewModel @Inject constructor(
 
             val result = registerUseCase.invoke(userMapOff())
 
-            result.data?.let { insertUserDB(it) }
+            result.data?.let { insertUserDB(it.toDomain()) }
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
 
@@ -131,11 +132,11 @@ class RegisterViewModel @Inject constructor(
 
     private fun userMapOff(): Map<String, String> {
         return mapOf(
-            "first_name" to "Arley",//firstNameField.value.text,
-            "last_name" to "Santana",//lastNameField.value.text,
+            "first_name" to "Marcos",//firstNameField.value.text,
+            "last_name" to "Almeida",//lastNameField.value.text,
             "date_birth" to "28-04-1995".convertDateBirth(),
             "genre" to "male",
-            "email" to "u4@gmail.com",//emailField.value.text,
+            "email" to "u12@gmail.com",//emailField.value.text,
             "password" to "teste123",//passwordField.value.text,
             "avatar" to ""
         )

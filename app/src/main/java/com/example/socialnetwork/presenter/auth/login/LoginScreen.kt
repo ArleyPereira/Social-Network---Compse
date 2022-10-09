@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
 import com.example.socialnetwork.data.model.ErrorAPI
-import com.example.socialnetwork.data.model.User
+import com.example.socialnetwork.domain.model.User
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
 import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.components.*
@@ -144,8 +144,9 @@ fun LoginScreen(
 
                 Text(
                     text = stringResource(id = R.string.text_label_email_login_screen),
+                    modifier = Modifier.align(Alignment.Start),
                     color = ColorTextLight,
-                    modifier = Modifier.align(Alignment.Start)
+                    fontSize = 14.sp
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
@@ -164,8 +165,9 @@ fun LoginScreen(
 
                 Text(
                     text = stringResource(id = R.string.text_label_password_login_screen),
+                    modifier = Modifier.align(Alignment.Start),
                     color = ColorTextLight,
-                    modifier = Modifier.align(Alignment.Start)
+                    fontSize = 14.sp
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
@@ -191,7 +193,7 @@ fun LoginScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+                Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
 
                 Row(
                     modifier = Modifier
@@ -204,7 +206,8 @@ fun LoginScreen(
                         text = stringResource(id = R.string.text_register_login_screen),
                         modifier = Modifier
                             .clickable { navigator.navigate(RegisterScreenDestination) },
-                        color = ColorTextLight
+                        color = ColorTextLight,
+                        fontSize = 14.sp
                     )
 
                     if (isLoading) {
@@ -215,7 +218,8 @@ fun LoginScreen(
                         text = stringResource(id = R.string.text_recover_login_screen),
                         modifier = Modifier
                             .clickable { navigator.navigate(RecoverAccountScreenDestination) },
-                        color = ColorTextLight
+                        color = ColorTextLight,
+                        fontSize = 14.sp
                     )
 
                 }
@@ -241,9 +245,10 @@ fun LoginScreen(
                     Text(
                         text = stringResource(id = R.string.text_continue_with_login_screen),
                         modifier = Modifier
-                            .background(color = Color.White)
+                            .background(color = ColorBackgroundApp)
                             .padding(horizontal = MaterialTheme.spacing.normal),
-                        color = ColorTextLight
+                        color = ColorTextLight,
+                        fontSize = 12.sp
                     )
                 }
 

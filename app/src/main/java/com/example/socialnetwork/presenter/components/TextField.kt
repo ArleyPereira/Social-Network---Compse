@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
 import com.example.socialnetwork.ui.theme.ColorBackgroundApp
 import com.example.socialnetwork.ui.theme.ColorPrimaryLight
@@ -70,7 +71,8 @@ fun TextFieldCustom(
                 if (textValue.isEmpty()) {
                     Text(
                         text = stringResource(id = hintText),
-                        color = ColorTextHint
+                        color = ColorTextHint,
+                        fontSize = 14.sp
                     )
                 }
 
