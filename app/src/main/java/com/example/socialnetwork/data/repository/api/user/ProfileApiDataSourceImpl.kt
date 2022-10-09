@@ -1,8 +1,8 @@
-package com.example.socialnetwork.data.repository.api.user.profile
+package com.example.socialnetwork.data.repository.api.user
 
 import com.example.socialnetwork.data.api.ServiceAPI
 import com.example.socialnetwork.data.model.UserDto
-import com.example.socialnetwork.domain.repository.api.user.profile.ProfileApiDataSource
+import com.example.socialnetwork.domain.repository.api.user.ProfileApiDataSource
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
@@ -15,8 +15,8 @@ class ProfileApiDataSourceImpl @Inject constructor(
      * @param [userId] Id do usuário a ser retornado
      * @author Arley Santana
      */
-    override suspend fun getProfile(userId: Long): BaseResponse<UserDto> {
-        return serviceAPI.getUserProfile(userId)
+    override suspend fun getUserById(userId: Long): BaseResponse<UserDto> {
+        return serviceAPI.getUserById(userId)
     }
 
     /**

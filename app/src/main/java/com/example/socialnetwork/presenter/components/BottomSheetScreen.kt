@@ -1,6 +1,5 @@
 package com.example.socialnetwork.presenter.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -24,6 +23,7 @@ fun BottomSheetScreen(
     message: String? = null,
     textBtnOk: String? = null,
     textBtnCancel: String? = null,
+    raiseHeight: Boolean = false,
     btnCancelIsVisibled: Boolean = false,
     onClickOk: () -> Unit,
     onClickCancel: () -> Unit,
@@ -42,7 +42,12 @@ fun BottomSheetScreen(
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp),
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp,
+                    bottom = if (raiseHeight) 70.dp else 16.dp
+                ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = title ?: stringResource(id = R.string.text_title_bottom_sheet))
@@ -78,13 +83,6 @@ fun BottomSheetScreen(
     }
 
 }
-
-@Composable
-fun EmptyBottomSheet() = Spacer(
-    modifier = Modifier
-        .height(1.dp)
-        .background(Color.Transparent)
-)
 
 @Preview(showBackground = true)
 @Composable

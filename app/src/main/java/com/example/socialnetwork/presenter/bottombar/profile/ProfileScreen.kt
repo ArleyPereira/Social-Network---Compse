@@ -14,19 +14,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.R
-import com.example.socialnetwork.ui.theme.ColorBackgroundApp
-import com.example.socialnetwork.ui.theme.ColorTextDark
-import com.example.socialnetwork.ui.theme.ColorTextLight
-import com.example.socialnetwork.ui.theme.spacing
+import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
+import com.example.socialnetwork.presenter.components.ButtonDefault
+import com.example.socialnetwork.presenter.components.TypeButton
+import com.example.socialnetwork.ui.theme.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import kotlinx.coroutines.launch
 
 @Destination
 @Composable
@@ -98,7 +101,8 @@ fun ProfileStatisticItem(
         Text(
             text = value,
             color = ColorTextDark,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
         )
 
         Text(
@@ -182,7 +186,7 @@ fun ProfileDescription(
 
         Text(
             text = nickName,
-            color = ColorTextDark,
+            color = ColorTextLight,
             fontSize = 14.sp
         )
 
@@ -190,9 +194,23 @@ fun ProfileDescription(
 
         Text(
             text = description,
-            color = Color.Black,
+            color = ColorTextDark,
             fontSize = 14.sp
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        ButtonDefault(
+            text = "Editar perfil",
+            textStyle = TextStyle(color = Color.White),
+            backgroundColor = ColorSecondaryDark,
+            typeButton = TypeButton.Small,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+        ) {
+
+        }
     }
 
 }

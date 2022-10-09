@@ -1,11 +1,11 @@
-package com.example.socialnetwork.domain.repository.api.user.profile
+package com.example.socialnetwork.domain.repository.api.user
 
 import com.example.socialnetwork.data.model.UserDto
 import com.example.socialnetwork.util.BaseResponse
 
 interface ProfileApiDataSource {
 
-    suspend fun getProfile(userId: Long) : BaseResponse<UserDto>
+    suspend fun getUserById(userId: Long) : BaseResponse<UserDto>
 
     suspend fun phoneUpdate(body: Map<String, String>) : BaseResponse<Unit>
 

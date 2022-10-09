@@ -72,7 +72,9 @@ class LoginViewModel @Inject constructor(
 
             val result = loginUsecase.invoke(body)
 
-            result.data?.let { insertUserDB(it.toDomain()) }
+            result.data?.let {
+                insertUserDB(it.toDomain())
+            }
 
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()

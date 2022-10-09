@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +35,7 @@ import com.example.socialnetwork.presenter.components.*
 import com.example.socialnetwork.presenter.destinations.*
 import com.example.socialnetwork.ui.theme.*
 import com.example.socialnetwork.util.Constants.Actions.ACTION_NOT_CONFIRMED
+import com.example.socialnetwork.util.preference.SharedPreferencesHelper
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
@@ -48,6 +50,8 @@ fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val preferences = SharedPreferencesHelper(LocalContext.current)
+
     var apiError by remember { mutableStateOf(LoginUIEvent.LoginError(ErrorAPI(null))) }
 
     val sheetState = rememberModalBottomSheetState(
@@ -73,6 +77,7 @@ fun LoginScreen(
                     isLoading = true
                 }
                 is LoginUIEvent.LoginSucess -> {
+                    preferences.saveToken(event.user.token)
                     navigator.navigate(FeedScreenDestination) {
                         popUpTo(LoginScreenDestination.route) { inclusive = true }
                     }

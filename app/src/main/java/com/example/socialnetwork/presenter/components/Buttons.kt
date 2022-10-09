@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.socialnetwork.R
@@ -56,8 +57,26 @@ fun ButtonDefault(
     text: String,
     textStyle: TextStyle = TextStyle.Default,
     backgroundColor: Color = ColorPrimaryDark,
+    typeButton: TypeButton = TypeButton.Normal,
     clickAction: () -> Unit
 ) {
+
+    val paddingText: Dp = when (typeButton) {
+        is TypeButton.Normal -> {
+            4.dp
+        }
+        is TypeButton.Small -> {
+            0.dp
+        }
+    }
+    val fontSize: Int = when (typeButton) {
+        is TypeButton.Normal -> {
+            16
+        }
+        is TypeButton.Small -> {
+            14
+        }
+    }
 
     Button(
         onClick = { clickAction() },
@@ -73,8 +92,9 @@ fun ButtonDefault(
         Text(
             text = text,
             modifier = Modifier
-                .padding(vertical = 4.dp),
-            style = textStyle
+                .padding(vertical = paddingText),
+            style = textStyle,
+            fontSize = fontSize.sp
         )
     }
 
@@ -198,4 +218,9 @@ fun PreviewButtons() {
                 .fillMaxWidth()
         ) {}
     }
+}
+
+sealed class TypeButton {
+    object Small : TypeButton()
+    object Normal : TypeButton()
 }

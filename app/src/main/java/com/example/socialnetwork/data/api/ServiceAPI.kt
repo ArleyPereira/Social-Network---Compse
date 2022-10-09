@@ -36,7 +36,7 @@ interface ServiceAPI {
     /* ----------------- PROFILE ----------------- */
 
     @GET("users")
-    suspend fun getUserProfile(
+    suspend fun getUserById(
         @Query("user_id") userId: Long,
     ): BaseResponse<UserDto>
 
@@ -69,5 +69,10 @@ interface ServiceAPI {
 
     @GET("friends")
     suspend fun getFriends(): BaseResponse<List<UserDto>>
+
+    /* ----------------- USERS ----------------- */
+
+    @GET("users")
+    suspend fun getUsers(): BaseResponse<List<UserDto>>
 
 }

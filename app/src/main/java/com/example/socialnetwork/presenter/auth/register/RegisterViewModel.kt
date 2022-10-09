@@ -132,11 +132,11 @@ class RegisterViewModel @Inject constructor(
 
     private fun userMapOff(): Map<String, String> {
         return mapOf(
-            "first_name" to "Marcos",//firstNameField.value.text,
-            "last_name" to "Almeida",//lastNameField.value.text,
-            "date_birth" to "28-04-1995".convertDateBirth(),
+            "first_name" to "Adriana",//firstNameField.value.text,
+            "last_name" to "Inácio",//lastNameField.value.text,
+            "date_birth" to "29-08-1937".convertDateBirth(),
             "genre" to "male",
-            "email" to "u12@gmail.com",//emailField.value.text,
+            "email" to "adriana.augusto@geradornv.com.br",//emailField.value.text,
             "password" to "teste123",//passwordField.value.text,
             "avatar" to ""
         )

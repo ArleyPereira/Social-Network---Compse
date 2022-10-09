@@ -1,6 +1,6 @@
-package com.example.socialnetwork.domain.usecase.api.user.update.email
+package com.example.socialnetwork.domain.usecase.api.user
 
-import com.example.socialnetwork.domain.repository.api.user.profile.ProfileApiDataSource
+import com.example.socialnetwork.domain.repository.api.user.ProfileApiDataSource
 import com.example.socialnetwork.util.BaseResponse
 import javax.inject.Inject
 
