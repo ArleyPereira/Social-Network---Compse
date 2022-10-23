@@ -5,10 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.socialnetwork.R
-import com.example.socialnetwork.ui.theme.ColorBackgroundApp
+import com.example.socialnetwork.domain.model.User
 import com.example.socialnetwork.ui.theme.ColorPrimaryDark
 import com.example.socialnetwork.ui.theme.ColorTextDark
 import com.example.socialnetwork.ui.theme.ColorTextLight
@@ -27,30 +26,31 @@ import com.example.socialnetwork.ui.theme.ColorTextLight
 @Composable
 fun CardProfileListScreen(
     following: Boolean,
-    profileName: String,
-    nickName: String,
-    followAction: (Boolean) -> Unit,
-    showAction: () -> Unit
+    user: User,
+    showFollowAction: Boolean = true,
+    followAction: (Long) -> Unit,
+    showAction: (Long) -> Unit
 ) {
+
+    var followUser by remember { mutableStateOf(following) }
+
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(100.dp),
-        //backgroundColor = ColorBackgroundApp,
         backgroundColor = Color.Transparent,
         elevation = 0.dp
     ) {
-        Row(
+
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .clickable { showAction(user.id ?: 0L) },
         ) {
             Row(
                 modifier = Modifier
-                    .clickable { showAction() },
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -68,19 +68,29 @@ fun CardProfileListScreen(
                         .padding(start = 16.dp)
                 ) {
                     Text(
-                        text = profileName,
+                        text = user.firstName ?: "",
                         color = ColorTextDark,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = nickName,
+                        text = user.nickName ?: "",
                         color = ColorTextLight
                     )
                 }
             }
 
-            ButtonFollow(following = following) { followAction(!following) }
+            if (showFollowAction) {
+                ButtonFollow(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd),
+                    following = followUser
+                ) {
+                    followUser = !followUser
+                    followAction(user.id ?: 0L)
+                }
+            }
         }
+
     }
 }
 
@@ -89,8 +99,10 @@ fun CardProfileListScreen(
 fun CardProfileListScreenPreview() {
     CardProfileListScreen(
         following = true,
-        profileName = "sabrinasantana",
-        nickName = "Sabrina Santana",
+        user = User(
+            firstName = "Sabrina",
+            nickName = "sabrinasantana"
+        ),
         followAction = {},
         showAction = {},
     )

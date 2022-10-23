@@ -1,31 +1,36 @@
 package com.example.socialnetwork.presenter.bottombar.search
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
+import com.example.socialnetwork.data.db.entity.toDomain
 import com.example.socialnetwork.data.model.ErrorAPI
 import com.example.socialnetwork.data.model.toDomain
+import com.example.socialnetwork.domain.model.User
+import com.example.socialnetwork.domain.usecase.api.follow.FollowUserUseCase
 import com.example.socialnetwork.domain.usecase.api.user.GetUsersUseCase
+import com.example.socialnetwork.domain.usecase.room.user.GetUserDbUseCase
 import com.example.socialnetwork.presenter.auth.state.TextFieldState
-import com.example.socialnetwork.presenter.bottombar.friends.event.FriendsEvent
-import com.example.socialnetwork.presenter.bottombar.search.event.SearchUIEvent
+import com.example.socialnetwork.presenter.bottombar.search.event.SearchEvent
+import com.example.socialnetwork.presenter.bottombar.search.state.SearchState
 import com.example.socialnetwork.util.getErrorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getUsersUseCase: GetUsersUseCase
+    private val getUsersUseCase: GetUsersUseCase,
+    private val followUserUseCase: FollowUserUseCase,
+    private val getUserDbUseCase: GetUserDbUseCase
 ) : ViewModel() {
 
-    private val _eventFlow = MutableSharedFlow<SearchUIEvent>()
-    val eventFlow = _eventFlow.asSharedFlow()
+    private val _state = mutableStateOf(SearchState())
+    val state: State<SearchState> = _state
 
     private val _searchField = mutableStateOf(
         TextFieldState(
@@ -35,42 +40,96 @@ class SearchViewModel @Inject constructor(
     val searchField: State<TextFieldState> = _searchField
 
     init {
-        getUsers()
+        getUserLocal()
     }
 
-    fun onEvent(event: FriendsEvent) {
+    fun onEvent(event: SearchEvent) {
         when (event) {
-            is FriendsEvent.EnteredSearch -> {
+            is SearchEvent.EnteredSearch -> {
                 _searchField.value = searchField.value.copy(text = event.value)
             }
-            FriendsEvent.ClearTextSearch -> {
+            SearchEvent.ClearTextSearch -> {
                 _searchField.value = searchField.value.copy(text = "")
+            }
+            is SearchEvent.FollowUser -> {
+                followUser(userId = event.userId, followedId = event.followedId)
+            }
+            SearchEvent.ClickedButtonSheetError -> {
+                _state.value = state.value.copy(error = null)
             }
         }
     }
 
-    private fun getUsers() = viewModelScope.launch {
+    private fun getUsers(userLocal: User) = viewModelScope.launch {
         try {
-            _eventFlow.emit(SearchUIEvent.SearchLoading)
+            _state.value = SearchState(isLoading = true)
 
             val result = getUsersUseCase.invoke()
 
             result.data?.let { user ->
-                _eventFlow.emit(SearchUIEvent.SearchSucess(user.map { it.toDomain() }))
+                _state.value = SearchState(
+                    users = user.map { it.toDomain() },
+                    userLocal = userLocal
+                )
             }
 
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
             errorApi?.let {
-                _eventFlow.emit(SearchUIEvent.SearchError(it))
+                _state.value = SearchState(error = it)
             }
         } catch (ex: Exception) {
-            _eventFlow.emit(
-                SearchUIEvent.SearchError(
-                    value = ErrorAPI(
-                        error = true,
-                        message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
-                    )
+            _state.value = SearchState(
+                error = ErrorAPI(
+                    error = true,
+                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                )
+            )
+        }
+    }
+
+    private fun getUserLocal() = viewModelScope.launch {
+        try {
+            val user = getUserDbUseCase.invoke()
+
+            getUsers(user.toDomain())
+        } catch (e: Exception) {
+            _state.value = SearchState(
+                error = ErrorAPI(
+                    error = true,
+                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
+                )
+            )
+        }
+    }
+
+    private fun followUser(
+        userId: Long,
+        followedId: Long
+    ) = viewModelScope.launch {
+        try {
+
+            Log.i("INFOTESTE", "followUser: $userId")
+
+            followUserUseCase.invoke(
+                mapOf(
+                    "user_id" to userId.toString(),
+                    "followed_id" to followedId.toString()
+                )
+            )
+
+        } catch (ex: HttpException) {
+            val errorApi = ex.getErrorResponse<ErrorAPI>()
+            errorApi?.let {
+                _state.value = state.value.copy(
+                    error = it
+                )
+            }
+        } catch (ex: Exception) {
+            _state.value = SearchState(
+                error = ErrorAPI(
+                    error = true,
+                    message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
                 )
             )
         }

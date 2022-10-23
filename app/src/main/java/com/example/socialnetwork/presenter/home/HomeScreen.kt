@@ -18,7 +18,7 @@ fun HomeScreen() {
     val navController = rememberNavController()
 
     val userLogged = true
-    val startRoute = if(userLogged) FeedScreenDestination else NavGraphs.root.startRoute
+    val startRoute = if (userLogged) FeedScreenDestination else NavGraphs.root.startRoute
 
     Scaffold(
         bottomBar = { BottomBar(navController = navController) }

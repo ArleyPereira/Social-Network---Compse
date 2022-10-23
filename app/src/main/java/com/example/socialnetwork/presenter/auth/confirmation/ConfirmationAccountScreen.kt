@@ -174,7 +174,8 @@ fun ConfirmationAccountScreen(
                     Text(
                         text = stringResource(id = R.string.text_label_code_confirmation_account_screen),
                         color = ColorTextLight,
-                        modifier = Modifier.align(Alignment.Start)
+                        modifier = Modifier.align(Alignment.Start),
+                        fontSize = 14.sp
                     )
 
                     Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
@@ -198,7 +199,13 @@ fun ConfirmationAccountScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-                        viewModel.onEvent(ConfirmationAccountEvent.ConfirmationAccount(user.email))
+                        user.email?.let {
+                            viewModel.onEvent(
+                                ConfirmationAccountEvent.ConfirmationAccount(
+                                    it
+                                )
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))

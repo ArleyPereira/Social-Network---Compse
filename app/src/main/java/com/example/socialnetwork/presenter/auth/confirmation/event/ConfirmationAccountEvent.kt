@@ -8,12 +8,10 @@ sealed class ConfirmationAccountEvent {
         val value: String
     ) : ConfirmationAccountEvent()
 
-    data class ConfirmationAccount(
-        val email: String?
-        ) : ConfirmationAccountEvent()
-
     data class SaveUserDB(
         val user: User
     ) : ConfirmationAccountEvent()
+
+    data class ConfirmationAccount(val email: String): ConfirmationAccountEvent()
 
 }

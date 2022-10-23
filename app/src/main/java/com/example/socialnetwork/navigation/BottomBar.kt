@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -38,9 +40,12 @@ fun BottomBar(navController: NavHostController) {
     ) {
         BottomNavigation(
             modifier = Modifier
-                .clip(shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
-            backgroundColor = ColorPrimaryLight,
-            elevation = 5.dp,
+                .shadow(
+                    elevation = 10.dp,
+                    shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp)
+                )
+                .clip(shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp)),
+            backgroundColor = Color.White,
             contentColor = ColorSecondaryDark
         ) {
             BottomBarItem.values().forEach {
@@ -71,12 +76,15 @@ fun RowScope.AddItem(
                 contentDescription = "Navigation Icon"
             )
         },
-        selected = currentDestination?.hierarchy?.any { it.route == item.direction.route } == true,
+        selected = currentDestination?.route == item.direction.route,
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         onClick = {
             navController.navigate(item.direction.route) {
-                popUpTo(FeedScreenDestination.route)
                 launchSingleTop = true
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                restoreState = true
             }
         }
     )
@@ -87,9 +95,7 @@ private fun isBottomMenu(currentDestination: NavDestination?): Boolean {
         FeedScreenDestination.route,
         SearchScreenDestination.route,
         FriendsScreenDestination.route,
-        ProfileScreenDestination.route -> {
-            true
-        }
+        ProfileScreenDestination.route -> true
         else -> false
     }
 }

@@ -1,5 +1,6 @@
 package com.example.socialnetwork.presenter.auth.login
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -52,7 +53,9 @@ fun LoginScreen(
 ) {
     val preferences = SharedPreferencesHelper(LocalContext.current)
 
-    var apiError by remember { mutableStateOf(LoginUIEvent.LoginError(ErrorAPI(null))) }
+    var apiError by remember {
+        mutableStateOf(ErrorAPI(null))
+    }
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -74,18 +77,21 @@ fun LoginScreen(
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is LoginUIEvent.LoginLoading -> {
+                    Log.i("INFOTESTE", "LoginLoading")
                     isLoading = true
                 }
                 is LoginUIEvent.LoginSucess -> {
+                    Log.i("INFOTESTE", "LoginSucess")
                     preferences.saveToken(event.user.token)
                     navigator.navigate(FeedScreenDestination) {
                         popUpTo(LoginScreenDestination.route) { inclusive = true }
                     }
                 }
                 is LoginUIEvent.LoginError -> {
+                    Log.i("INFOTESTE", "LoginError")
                     isLoading = false
 
-                    apiError = LoginUIEvent.LoginError(event.value)
+                    apiError = event.value
 
                     coroutineScope.launch {
                         sheetState.animateTo(
@@ -102,17 +108,17 @@ fun LoginScreen(
         sheetState = sheetState,
         sheetContent = {
             BottomSheetScreen(
-                message = apiError.value.message,
-                textBtnOk = textBtnOkBottomSheet(apiError.value),
+                message = apiError.message,
+                textBtnOk = textBtnOkBottomSheet(apiError),
                 onClickOk = {
                     coroutineScope.launch {
                         sheetState.hide()
 
-                        if (apiError.value.error) {
-                            when (apiError.value.action) {
+                        if (apiError.error) {
+                            when (apiError.action) {
                                 ACTION_NOT_CONFIRMED -> {
                                     navigator.navigate(
-                                        ConfirmationAccountScreenDestination(User())
+                                        ConfirmationAccountScreenDestination(apiError.data as User)
                                     )
                                 }
                             }
@@ -291,7 +297,7 @@ private fun textBtnOkBottomSheet(errorAPI: ErrorAPI): String {
             "Confirmar agora"
         }
         else -> {
-            ""
+            "Entendi"
         }
     }
 }

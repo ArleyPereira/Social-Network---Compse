@@ -1,0 +1,33 @@
+{
+   "data":[
+      {
+         "id":1,
+         "content":"De férias na praia",
+         "tags":"ferias, praia",
+         "views":0,
+         "status":"1",
+         "created_at":"2022-10-15T20:30:07",
+         "updated_at":"2022-10-15T20:30:07",
+         "user_id":1,
+         "user":{
+            "id":1,
+            "first_name":"Alisson",
+            "last_name":"Pereira Santana",
+            "date_birth":"1993-02-19",
+            "document":"14834355716",
+            "genre":"male",
+            "email":"alissonpereira1993@gmail.com",
+            "phone":null,
+            "password":"$2b$10$WZ41Bg2h/.ijSUG.E4G6wOfVwWkw0k7MfwQtGNE2VMq1G/17RXe3K",
+            "avatar":"https://bk-social.s3.amazonaws.com/storage/users/2022/10/32136ec2abebc91c3abdea2c.png",
+            "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsaXNzb25wZXJlaXJhMTk5M0BnbWFpbC5jb20iLCJpYXQiOjE2NjU4NjEwOTMsImV4cCI6MTY2ODQ1MzA5M30.ijJQXRR9vUq04F7Ic8c0DzdE_dwM9qEwGl_NqkbeEro",
+            "status":"1",
+            "created_at":"2022-08-14T14:06:15.000Z",
+            "updated_at":"2022-10-15T19:11:33.000Z"
+         }
+      }
+   ],
+   "error":null,
+   "status":200,
+   "message":null
+}

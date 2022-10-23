@@ -9,8 +9,8 @@ import com.example.socialnetwork.R
 import com.example.socialnetwork.data.model.ErrorAPI
 import com.example.socialnetwork.domain.model.User
 import com.example.socialnetwork.domain.model.toUserEntity
-import com.example.socialnetwork.domain.usecase.api.auth.EmailConfirmationUseCase
-import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
+import com.example.socialnetwork.domain.usecase.api.auth.ConfirmationAccountUseCase
+import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUseCase
 import com.example.socialnetwork.presenter.auth.confirmation.event.ConfirmationAccountEvent
 import com.example.socialnetwork.presenter.auth.confirmation.event.ConfirmationAccountUIEvent
 import com.example.socialnetwork.presenter.auth.state.TextFieldState
@@ -24,8 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmationAccountViewModel @Inject constructor(
-    private val confirmationUseCase: EmailConfirmationUseCase,
-    private val insertUserDbUsecase: InsertUserDbUsecase
+    private val confirmationUseCase: ConfirmationAccountUseCase,
+    private val insertUserDbUsecase: InsertUserDbUseCase
 ) : ViewModel() {
 
     private val _codeField = mutableStateOf(
@@ -56,13 +56,13 @@ class ConfirmationAccountViewModel @Inject constructor(
         }
     }
 
-    private fun confirmationAccount(email: String?) = viewModelScope.launch {
+    private fun confirmationAccount(email: String) = viewModelScope.launch {
         try {
             _eventFlow.emit(ConfirmationAccountUIEvent.ConfirmationLoading)
 
             val body = mapOf(
-                "email" to email,
-                "code" to _codeField.value.text
+                "code" to _codeField.value.text,
+                "email" to email
             )
 
             val result = confirmationUseCase.invoke(body)

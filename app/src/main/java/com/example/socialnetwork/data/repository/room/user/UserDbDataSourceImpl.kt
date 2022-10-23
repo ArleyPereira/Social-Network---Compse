@@ -2,6 +2,7 @@ package com.example.socialnetwork.data.repository.room.user
 
 import com.example.socialnetwork.data.db.dao.UserDao
 import com.example.socialnetwork.data.db.entity.UserEntity
+import com.example.socialnetwork.domain.repository.room.user.UserDbDataSource
 import javax.inject.Inject
 
 class UserDbDataSourceImpl @Inject constructor(
@@ -16,8 +17,8 @@ class UserDbDataSourceImpl @Inject constructor(
         return userDAO.insertUser(userEntity)
     }
 
-    override suspend fun deleteUser(id: Long) {
-        userDAO.deleteUser(id)
+    override suspend fun deleteUser() {
+        userDAO.deleteUser()
     }
 
 }

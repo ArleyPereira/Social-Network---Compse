@@ -6,15 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.socialnetwork.R
 import com.example.socialnetwork.data.model.ErrorAPI
+import com.example.socialnetwork.data.model.UserDto
 import com.example.socialnetwork.data.model.toDomain
 import com.example.socialnetwork.domain.model.User
 import com.example.socialnetwork.domain.model.toUserEntity
 import com.example.socialnetwork.domain.usecase.api.auth.LoginUseCase
-import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
+import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUseCase
 import com.example.socialnetwork.presenter.auth.login.events.LoginEvent
 import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
 import com.example.socialnetwork.presenter.auth.state.TextFieldState
 import com.example.socialnetwork.util.getErrorResponse
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -25,13 +27,14 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUsecase: LoginUseCase,
-    private val insertUserDbUsecase: InsertUserDbUsecase
+    private val insertUserDbUsecase: InsertUserDbUseCase
 ) : ViewModel() {
 
     private val _emailField = mutableStateOf(
         TextFieldState(
             hint = R.string.text_label_email_login_screen,
             text = "pequeno_arley@hotmail.com"
+            //text = "pequeno_arley@hotmail.com"
         )
     )
     val emailField: State<TextFieldState> = _emailField
@@ -39,7 +42,8 @@ class LoginViewModel @Inject constructor(
     private val _passwordField = mutableStateOf(
         TextFieldState(
             hint = R.string.text_hint_password_login_screen,
-            text = "benedito1965"
+            text = "teste123"
+            //text = "benedito1965"
         )
     )
     val passwordField: State<TextFieldState> = _passwordField
@@ -78,14 +82,28 @@ class LoginViewModel @Inject constructor(
 
         } catch (ex: HttpException) {
             val errorApi = ex.getErrorResponse<ErrorAPI>()
+
             errorApi?.let {
-                _eventFlow.emit(LoginUIEvent.LoginError(it))
+                _eventFlow.emit(
+                    LoginUIEvent.LoginError(
+                        it.copy(
+                            data = if (it.data != null) {
+                                Gson().fromJson(
+                                    Gson().toJson(errorApi.data),
+                                    UserDto::class.java
+                                ).toDomain()
+                            } else {
+                                null
+                            }
+                        )
+                    )
+                )
             }
+
         } catch (ex: Exception) {
             _eventFlow.emit(
                 LoginUIEvent.LoginError(
                     value = ErrorAPI(
-                        error = true,
                         message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
                     )
                 )
@@ -102,7 +120,6 @@ class LoginViewModel @Inject constructor(
             _eventFlow.emit(
                 LoginUIEvent.LoginError(
                     ErrorAPI(
-                        error = true,
                         message = "Ocorreu um erro inesperado. Por favor, feche o aplicativo e abra novamente."
                     )
                 )

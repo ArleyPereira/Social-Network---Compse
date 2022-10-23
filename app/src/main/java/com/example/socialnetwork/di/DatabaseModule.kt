@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.example.socialnetwork.R
 import com.example.socialnetwork.data.db.AppDatabase
-import com.example.socialnetwork.data.db.dao.PostDraftDao
 import com.example.socialnetwork.data.db.dao.UserDao
 import com.example.socialnetwork.util.datastore.UserDataStore
 import dagger.Module
@@ -31,11 +30,6 @@ class DatabaseModule {
     @Provides
     fun provideUserDao(appDatabase: AppDatabase): UserDao {
         return appDatabase.userDao()
-    }
-
-    @Provides
-    fun providePostDraftDao(appDatabase: AppDatabase): PostDraftDao {
-        return appDatabase.postDraftDao()
     }
 
     @Provides

@@ -1,4 +1,4 @@
-package com.example.socialnetwork.data.repository.room.user
+package com.example.socialnetwork.domain.repository.room.user
 
 import com.example.socialnetwork.data.db.entity.UserEntity
 
@@ -8,6 +8,6 @@ interface UserDbDataSource {
 
     suspend fun insertUser(userEntity: UserEntity) : Long
 
-    suspend fun deleteUser(id: Long)
+    suspend fun deleteUser()
 
 }

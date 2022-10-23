@@ -1,5 +1,6 @@
 package com.example.socialnetwork.presenter.bottombar.search
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -15,19 +16,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.socialnetwork.data.model.ErrorAPI
-import com.example.socialnetwork.domain.model.User
-import com.example.socialnetwork.presenter.auth.login.events.LoginUIEvent
-import com.example.socialnetwork.presenter.bottombar.friends.event.FriendsEvent
-import com.example.socialnetwork.presenter.bottombar.search.event.SearchUIEvent
+import com.example.socialnetwork.presenter.bottombar.search.event.SearchEvent
 import com.example.socialnetwork.presenter.components.BottomSheetScreen
 import com.example.socialnetwork.presenter.components.CardProfileListScreen
 import com.example.socialnetwork.presenter.components.SearchView
+import com.example.socialnetwork.presenter.destinations.*
 import com.example.socialnetwork.ui.theme.ColorBackgroundApp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -37,13 +34,9 @@ fun SearchScreen(
     navigator: DestinationsNavigator,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.value
 
     val searchField = viewModel.searchField.value
-
-    var apiError by remember { mutableStateOf(LoginUIEvent.LoginError(ErrorAPI(null))) }
-    var isLoading by remember { mutableStateOf(false) }
-
-    var users by remember { mutableStateOf(emptyList<User>()) }
 
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -56,44 +49,23 @@ fun SearchScreen(
         coroutineScope.launch { sheetState.hide() }
     }
 
-    LaunchedEffect(key1 = true) {
-        viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is SearchUIEvent.SearchLoading -> {
-                    isLoading = true
-                }
-                is SearchUIEvent.SearchSucess -> {
-                    users = event.users
-                }
-                is SearchUIEvent.SearchError -> {
-                    isLoading = false
-
-                    apiError = LoginUIEvent.LoginError(event.value)
-
-                    coroutineScope.launch {
-                        sheetState.animateTo(
-                            ModalBottomSheetValue.Expanded,
-                            tween(500)
-                        )
-                    }
-                }
-            }
-        }
-    }
-
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
             BottomSheetScreen(
-                message = apiError.value.message,
+                message = state.error?.message,
                 raiseHeight = true,
                 onClickOk = {
                     coroutineScope.launch {
+                        viewModel.onEvent(SearchEvent.ClickedButtonSheetError)
                         sheetState.hide()
                     }
                 },
                 onClickCancel = {
-                    coroutineScope.launch { sheetState.hide() }
+                    coroutineScope.launch {
+                        viewModel.onEvent(SearchEvent.ClickedButtonSheetError)
+                        sheetState.hide()
+                    }
                 }
             )
         },
@@ -104,8 +76,15 @@ fun SearchScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            state.error?.let {
+                coroutineScope.launch {
+                    sheetState.animateTo(
+                        ModalBottomSheetValue.Expanded, tween(500)
+                    )
+                }
+            }
 
-            if (isLoading) {
+            if (state.isLoading) {
                 CircularProgressIndicator()
             }
 
@@ -118,14 +97,14 @@ fun SearchScreen(
                     SearchView(
                         modifier = Modifier
                             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                            .alpha(if (isLoading) 0f else 1f),
+                            .alpha(if (state.isLoading) 0f else 1f),
                         hintText = searchField.hint,
                         text = searchField.text,
                         onTextChange = {
-                            viewModel.onEvent(FriendsEvent.EnteredSearch(it))
+                            viewModel.onEvent(SearchEvent.EnteredSearch(it))
                         },
                         onClearText = {
-                            viewModel.onEvent(FriendsEvent.ClearTextSearch)
+                            viewModel.onEvent(SearchEvent.ClearTextSearch)
                         }
                     )
                 }
@@ -142,58 +121,33 @@ fun SearchScreen(
                     }
                 }
 
-                items(users) { user ->
+                items(state.users) { user ->
                     CardProfileListScreen(
                         following = false,
-                        profileName = "${user.firstName} ${user.lastName}",
-                        nickName = user.nickName ?: "",
-                        followAction = { follow ->
-
+                        user = user,
+                        showFollowAction = user.id != state.userLocal?.id,
+                        followAction = { followedId ->
+                            viewModel.onEvent(
+                                SearchEvent.FollowUser(
+                                    userId = state.userLocal?.id ?: 0,
+                                    followedId = followedId
+                                )
+                            )
                         },
-                        showAction = {
-
+                        showAction = { userId ->
+                            if (user.id != state.userLocal?.id) {
+                                navigator.navigate(ProfileUserScreenDestination(userId))
+                            } else {
+                                navigator.navigate(ProfileScreenDestination())
+                            }
                         },
                     )
                 }
+
             }
 
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//            ) {
-//                SearchView(
-//                    modifier = Modifier
-//                        .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-//                    hintText = searchField.hint,
-//                    text = searchField.text,
-//                    onTextChange = {
-//                        viewModel.onEvent(FriendsEvent.EnteredSearch(it))
-//                    },
-//                    onClearText = {
-//                        viewModel.onEvent(FriendsEvent.ClearTextSearch)
-//                    }
-//                )
-//
-//                LazyColumn(
-//                    contentPadding = PaddingValues(top = 16.dp, bottom = 60.dp)
-//                ) {
-//                    items(users) { user ->
-//                        CardProfileListScreen(
-//                            following = false,
-//                            profileName = "${user.firstName} ${user.lastName}",
-//                            nickName = user.nickName ?: "",
-//                            followAction = { follow ->
-//
-//                            },
-//                            showAction = {
-//
-//                            },
-//                        )
-//                    }
-//                }
-//            }
-
         }
+
     }
 
 }

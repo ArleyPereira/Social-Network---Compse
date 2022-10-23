@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.socialnetwork.data.model.UserDto
+import com.example.socialnetwork.data.model.toDomain
 import com.example.socialnetwork.presenter.bottombar.friends.event.FriendsEvent
 import com.example.socialnetwork.presenter.components.CardProfileListScreen
 import com.example.socialnetwork.presenter.components.SearchView
@@ -35,8 +36,6 @@ fun FriendsScreen(
             .fillMaxSize()
 
     ) {
-
-
         LazyColumn(
             contentPadding = PaddingValues(top = 16.dp, bottom = 60.dp)
         ) {
@@ -85,8 +84,7 @@ fun FriendsScreen(
             items(userDtos) { user ->
                 CardProfileListScreen(
                     following = false,
-                    profileName = user.lastName!!,
-                    nickName = user.nickName!!,
+                    user = user.toDomain(),
                     followAction = { follow ->
 
                     },

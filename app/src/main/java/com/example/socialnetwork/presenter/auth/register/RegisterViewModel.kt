@@ -10,7 +10,7 @@ import com.example.socialnetwork.data.model.toDomain
 import com.example.socialnetwork.domain.model.User
 import com.example.socialnetwork.domain.model.toUserEntity
 import com.example.socialnetwork.domain.usecase.api.auth.RegisterUseCase
-import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUsecase
+import com.example.socialnetwork.domain.usecase.room.user.InsertUserDbUseCase
 import com.example.socialnetwork.presenter.auth.register.events.RegisterEvent
 import com.example.socialnetwork.presenter.auth.register.events.RegisterUIEvent
 import com.example.socialnetwork.presenter.auth.state.TextFieldState
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
-    private val insertUserDbUsecase: InsertUserDbUsecase
+    private val insertUserDbUsecase: InsertUserDbUseCase
 ) : ViewModel() {
 
     private val _firstNameField = mutableStateOf(
@@ -132,11 +132,11 @@ class RegisterViewModel @Inject constructor(
 
     private fun userMapOff(): Map<String, String> {
         return mapOf(
-            "first_name" to "Adriana",//firstNameField.value.text,
-            "last_name" to "Inácio",//lastNameField.value.text,
-            "date_birth" to "29-08-1937".convertDateBirth(),
+            "first_name" to "Arley",//firstNameField.value.text,
+            "last_name" to "Santana",//lastNameField.value.text,
+            "date_birth" to "28-04-1995".convertDateBirth(),
             "genre" to "male",
-            "email" to "adriana.augusto@geradornv.com.br",//emailField.value.text,
+            "email" to "pequeno_arley@hotmail.com",//emailField.value.text,
             "password" to "teste123",//passwordField.value.text,
             "avatar" to ""
         )

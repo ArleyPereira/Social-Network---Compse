@@ -1,6 +1,6 @@
 package com.example.socialnetwork.domain.usecase.api.auth
 
-import com.example.socialnetwork.domain.repository.api.user.AuthenticationApiDataSource
+import com.example.socialnetwork.domain.repository.api.auth.AuthenticationApiDataSource
 import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(

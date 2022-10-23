@@ -1,15 +1,17 @@
 package com.example.socialnetwork.data.api
 
-import com.example.socialnetwork.data.model.Post
+import com.example.socialnetwork.data.model.PostDto
 import com.example.socialnetwork.data.model.UserDto
 import com.example.socialnetwork.util.BaseResponse
+import com.google.gson.JsonObject
+import io.github.brunogabriel.mockpinterceptor.MOCK
 import retrofit2.http.*
 
 interface ServiceAPI {
 
     /* ----------------- AUTHENTICATION ----------------- */
 
-    @POST("users")
+    @POST("users/store")
     suspend fun register(
         @Body user: Map<String, String>
     ): BaseResponse<UserDto>
@@ -19,13 +21,13 @@ interface ServiceAPI {
         @Body body: Map<String, String>
     ): BaseResponse<UserDto>
 
-    @PUT("confirmations")
-    suspend fun emailConfirm(
-        @Body body: Map<String, String>,
+    @PUT("confirmations/update")
+    suspend fun confirmationAccount(
+        @Body body: Map<String, String>
     ): BaseResponse<Unit>
 
     @POST("auth/recover")
-    suspend fun recover(
+    suspend fun recoverAccount(
         @Body code: String,
         @Header("token") token: String
     ): BaseResponse<Unit>
@@ -62,8 +64,11 @@ interface ServiceAPI {
 
     /* ----------------- POST ----------------- */
 
-    @GET("posts")
-    suspend fun getPosts(): BaseResponse<List<Post>>
+//    @MOCK(asset = "post_response.json", runDelay = true)
+    @POST("posts/list")
+    suspend fun getPosts(
+        @Body body: JsonObject
+    ): BaseResponse<List<PostDto>>
 
     /* ----------------- FRIENDS ----------------- */
 
@@ -72,7 +77,14 @@ interface ServiceAPI {
 
     /* ----------------- USERS ----------------- */
 
-    @GET("users")
+    @POST("users/list")
     suspend fun getUsers(): BaseResponse<List<UserDto>>
+
+    /* ----------------- FOLLOWERS ----------------- */
+
+    @POST("followers/store")
+    suspend fun followUser(
+        @Body body: Map<String, String?>
+    ): BaseResponse<Unit>
 
 }
