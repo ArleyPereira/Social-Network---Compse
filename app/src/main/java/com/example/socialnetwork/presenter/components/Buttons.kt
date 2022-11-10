@@ -1,6 +1,7 @@
 package com.example.socialnetwork.presenter.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -174,6 +176,35 @@ fun ButtonFollow(
 
 }
 
+@Composable
+fun ButtonOutline(
+    modifier: Modifier = Modifier,
+    following: Boolean,
+    clickAction: () -> Unit
+) {
+    val backgroundColor = if (following) Color(0xFF7067DA) else Color.Transparent
+    val textColor = if (following) Color.White else Color(0xFF7067DA)
+
+    OutlinedButton(
+        onClick = { clickAction() },
+        modifier = modifier,
+        shape = RoundedCornerShape(100.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor
+        ),
+        border = BorderStroke(1.dp, Color(0xFF7067DA))
+    ) {
+        Text(
+            text = if (following) "Seguindo" else "Seguir",
+            modifier = Modifier
+                .padding(horizontal = 0.dp),
+            color = textColor,
+            fontSize = 12.sp,
+        )
+    }
+
+}
+
 @Preview
 @Composable
 fun PreviewButtons() {
@@ -211,6 +242,8 @@ fun PreviewButtons() {
         ) {}
 
         ButtonFollow(following = true) {}
+
+        ButtonOutline(following = false) {}
 
         ButtonResend(
             isTimeRunning = 0L,

@@ -1,12 +1,11 @@
 package com.example.socialnetwork.presenter.bottombar.search
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -88,10 +87,11 @@ fun SearchScreen(
                 CircularProgressIndicator()
             }
 
-            LazyColumn(
+            LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentPadding = PaddingValues(top = 16.dp, bottom = 60.dp)
+                contentPadding = PaddingValues(top = 16.dp, bottom = 60.dp, start = 8.dp, end = 8.dp),
+                columns = GridCells.Fixed(1)
             ) {
                 item {
                     SearchView(
@@ -121,27 +121,29 @@ fun SearchScreen(
                     }
                 }
 
-                items(state.users) { user ->
-                    CardProfileListScreen(
-                        following = false,
-                        user = user,
-                        showFollowAction = user.id != state.userLocal?.id,
-                        followAction = { followedId ->
-                            viewModel.onEvent(
-                                SearchEvent.FollowUser(
-                                    userId = state.userLocal?.id ?: 0,
-                                    followedId = followedId
+                items(state.users.size) {
+                    if(state.users[it].id != state.userLocal?.id){
+                        CardProfileListScreen(
+                            following = false,
+                            user = state.users[it],
+                            showFollowAction = state.users[it].id != state.userLocal?.id,
+                            followAction = { followedId ->
+                                viewModel.onEvent(
+                                    SearchEvent.FollowUser(
+                                        userId = state.userLocal?.id ?: 0,
+                                        followedId = followedId
+                                    )
                                 )
-                            )
-                        },
-                        showAction = { userId ->
-                            if (user.id != state.userLocal?.id) {
-                                navigator.navigate(ProfileUserScreenDestination(userId))
-                            } else {
-                                navigator.navigate(ProfileScreenDestination())
-                            }
-                        },
-                    )
+                            },
+                            showAction = { userId ->
+                                if (state.users[it].id != state.userLocal?.id) {
+                                    navigator.navigate(ProfileUserScreenDestination(userId))
+                                } else {
+                                    navigator.navigate(ProfileScreenDestination())
+                                }
+                            },
+                        )
+                    }
                 }
 
             }
